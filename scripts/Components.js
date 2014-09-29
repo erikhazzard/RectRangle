@@ -18,9 +18,9 @@ ECS.Components.Appearance = function ComponentAppearance ( params ){
     if(!this.colors){
         // generate random color if not passed in (get 6 random hex values)
         this.colors = {
-            r: 0,
-            g: 100,
-            b: 150
+            r: 255,
+            g: 255,
+            b: 255
         };
     }
 

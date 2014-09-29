@@ -49,7 +49,6 @@ ECS.Game = function Game (){
     entity.components.appearance.colors.g = 255;
     entities[entity.id] = entity;
 
-
     // store reference to entities
     ECS.entities = entities;
 

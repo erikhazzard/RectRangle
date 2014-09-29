@@ -20,16 +20,6 @@ var userInputPosition = {
     deltaY: false
 };
 
-// start it in center for touch devices
-if(hasTouchEnabled){
-    userInputPosition = {
-        x: ECS.$canvas.width / 2,
-        y: ECS.$canvas.height / 2,
-        lastX: ECS.$canvas.width / 2,
-        lastY: ECS.$canvas.height / 2
-    };
-}
-
 // Setup mouse handling
 // --------------------------------------
 function updateMousePosition(evt) {
@@ -43,33 +33,6 @@ ECS.$canvas.addEventListener('mousemove', function mouseMove (evt) {
     //// update the mouse position when moved
     updateMousePosition(evt);
 }, false);
-
-// Setup hammer2.0 events
-// --------------------------------------
-var mc = new Hammer.Manager(ECS.$canvas);
-if(hasTouchEnabled()){
-    mc.add(new Hammer.Pan({ threshold: 0, pointers: 0 }));
-    mc.on("panstart", function onPanStart(ev){
-        var rect = ECS.$canvas.getBoundingClientRect();
-
-        userInputPosition.lastX = userInputPosition.x;
-        userInputPosition.lastY = userInputPosition.y;
-
-        userInputPosition.x = ev.center.x - rect.left - 10;
-        userInputPosition.y = ev.center.y - rect.top - 10;
-    });
-
-    mc.on("panmove", function onPanMove(ev) {
-        // For touch events, don't use x/y
-        userInputPosition.x = userInputPosition.lastX + ev.deltaX;
-        userInputPosition.y = userInputPosition.lastY + ev.deltaY;
-    });
-
-    mc.on("panend", function onPanEnd(ev){
-        //userInputPosition.lastX = userInputPosition.x;
-        //userInputPosition.lastY = userInputPosition.y;
-    });
-}
 
 // Setup the system
 // --------------------------------------
