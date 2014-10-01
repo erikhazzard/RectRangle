@@ -101,6 +101,3 @@ ECS.Game = function Game (){
 
     return this;
 };
-
-// Kick off the game
-ECS.game = new ECS.Game();

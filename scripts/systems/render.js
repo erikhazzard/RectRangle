@@ -89,6 +89,7 @@ ECS.systems.render = function systemRender ( entities ) {
         if ( curEntity.components.appearance && curEntity.components.appearanceImage && curEntity.components.position ){
             // For entities that have an IMAGE
             // --------------------------
+            // draw the image
             ECS.context.drawImage(
                 curEntity.components.appearanceImage.image,
                 curEntity.components.position.x - curEntity.components.appearance.size,
@@ -96,6 +97,34 @@ ECS.systems.render = function systemRender ( entities ) {
                 curEntity.components.appearance.size * 2,
                 curEntity.components.appearance.size * 2
             );
+
+            // draw a box if it's too small
+            if(curEntity.components.appearance.size < 8){
+                // draw a little black line around every rect
+                ECS.context.strokeStyle = 'rgba(0,0,0,1)';
+                ECS.context.fillStyle = 'rgba(' + [
+                    curEntity.components.appearance.colors.r,
+                    curEntity.components.appearance.colors.g,
+                    curEntity.components.appearance.colors.b,
+                    0
+                ];
+
+                // draw the rect
+                ECS.context.fillRect( 
+                    curEntity.components.position.x - curEntity.components.appearance.size,
+                    curEntity.components.position.y - curEntity.components.appearance.size,
+                    curEntity.components.appearance.size * 2,
+                    curEntity.components.appearance.size * 2
+                );
+                // stroke it
+                ECS.context.strokeRect(
+                    curEntity.components.position.x - curEntity.components.appearance.size,
+                    curEntity.components.position.y - curEntity.components.appearance.size,
+                    curEntity.components.appearance.size * 2,
+                    curEntity.components.appearance.size * 2
+                );
+            }
+            
         }
     }
 };

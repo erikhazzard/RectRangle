@@ -1,5 +1,5 @@
 body, html {
-    background: RGBA(151, 135, 110, 0.2);
+    background: #336699 url(/img/title-screen.png);
     bottom: 0;
     font-family: 'VT323', monospace;
     left: 0;
@@ -29,6 +29,7 @@ a {
 }
 
 #canvas-wrapper {
+    border: 5px solid #D3CCB8;
     display: block;
     cursor: none;
     height: 450px;
@@ -45,9 +46,7 @@ canvas {
     image-rendering: -moz-crisp-edges; 
 
 
-    background: #ffffff;
-    border: 5px solid #343434;
-    border-radius: 3px;
+    background: #ECE5CE;
     cursor: none;
     transition: all 0.2s;
     position: absolute;
@@ -136,17 +135,32 @@ canvas.goodHit {
 
 /* Custom animations */
 @-webkit-keyframes animation-pulse {
-	0% { -webkit-transform: scale(1); }
-	30% { -webkit-transform: scale(1.02); }
-	40% { -webkit-transform: scale(1); }
-	70% { -webkit-transform: scale(1.01); }
-	80% { -webkit-transform: scale(1); }
-	100% { -webkit-transform: scale(1); }
+	0% { -webkit-transform: scale(1); } 30% { -webkit-transform: scale(1.02); } 100% { -webkit-transform: scale(1); }
 }
+@-moz-keyframes animation-pulse {
+	0% { -moz-transform: scale(1); } 30% { -moz-transform: scale(1.02); } 100% { -moz-transform: scale(1); }
+}
+@-keyframes animation-pulse {
+	0% { transform: scale(1); } 30% { transform: scale(1.02); } 100% { transform: scale(1); }
+}
+
 .pulse {
-	-webkit-animation-name: animation-pulse;
-	-webkit-animation-duration: 300ms;
-	-webkit-transform-origin:100% 100%;
-	-webkit-animation-iteration-count: infinite;
-	-webkit-animation-timing-function: linear;
+    -webkit-animation: animation-pulse 300ms infinite;
+    -moz-animation: animation-pulse 300ms infinite;
+    animation: animation-pulse 300ms infinite;
+}
+
+@-webkit-keyframes animation-pulse-big {
+	0% { -webkit-transform: scale(1); } 30% { -webkit-transform: scale(1.05); } 100% { -webkit-transform: scale(1); }
+}
+@-moz-keyframes animation-pulse-big {
+	0% { -moz-transform: scale(1); } 30% { -moz-transform: scale(1.05); } 100% { -moz-transform: scale(1); }
+}
+@-keyframes animation-pulse-big {
+	0% { transform: scale(1); } 30% { transform: scale(1.05); } 100% { transform: scale(1); }
+}
+.pulse-big {
+    -webkit-animation: animation-pulse-big 300ms infinite;
+    -moz-animation: animation-pulse-big 300ms infinite;
+    animation: animation-pulse-big 300ms infinite;
 }

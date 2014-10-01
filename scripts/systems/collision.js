@@ -38,6 +38,7 @@ ECS.systems.collision = function systemCollision ( entities ) {
     // entities. An optimization would be to have some layer which only 
     // feeds in relevant entities to the system, but for demo purposes we'll
     // assume all entities are passed in and iterate over them.
+    var SMALL_LIMIT = 1.3;
 
     var curEntity; 
     var entityIdsCollidedWith = [];
@@ -85,7 +86,7 @@ ECS.systems.collision = function systemCollision ( entities ) {
                             );
 
                             // extra bonus for hitting small entities
-                            if(entities[entityId2].components.appearance.size < 1.3){
+                            if(entities[entityId2].components.appearance.size < SMALL_LIMIT){
                                 if(curEntity.components.health.value < 30){
                                     // Add some bonus health if it's really small,
                                     // but don't let it get out of control
@@ -114,9 +115,15 @@ ECS.systems.collision = function systemCollision ( entities ) {
                                 // Flash the canvas. NOTE: This is ok for a tutorial,
                                 // but ideally this would not be coupled in the
                                 // collision system
-                                ECS.$canvasEl.addClass('goodHit pulse');
+                                // extra bonus for small boxes
+                                if(entities[entityId2].components.appearance.size < SMALL_LIMIT){
+                                    ECS.$canvasEl.addClass('goodHit pulse-big');
+                                } else {
+                                    ECS.$canvasEl.addClass('goodHit pulse');
+                                }
+
                                 setTimeout(function(){
-                                    ECS.$canvasEl.removeClass('goodHit pulse');
+                                    ECS.$canvasEl.removeClass('goodHit pulse pulse-big');
                                 }, 100);
                             }
                         }

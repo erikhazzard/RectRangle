@@ -56,33 +56,8 @@
     <script src='/scripts/lib/jquery.js'></script>
     <script src='/scripts/lib/velocity.js'></script>
 
-    <script>
-        // For tutorial purposes, we'll set up a global object containing 
-        // references to all objects.
-        window.ECS = {
-            Components: {},
-
-            systems: {},
-            entities: [],
-            game: {},
-
-            score: 0
-        };
-
-        // Canvas functionality (NOT ECS specific)
-        // --------------------------------------
-        // For the demo, just grab a reference to the canvas
-        // Some systems (e.g., rendering) need to know about the canvas. We
-        // could pass in a reference to it or store it's state globally like
-        // this:
-        ECS.$canvas = document.getElementById("game-canvas");
-        ECS.$canvasEl = $(ECS.$canvas); // jquery el ref
-        ECS.context = ECS.$canvas.getContext("2d");
-
-        ECS.$score = document.getElementById("score");
-
-
-    </script>
+    <!-- hungry box -->
+    <script src='scripts/base.js'></script>
 
     <script src='scripts/Entity.js'></script>
     <script src='scripts/Components.js'></script>
@@ -92,6 +67,9 @@
     <script src='scripts/systems/collision.js'></script>
     <script src='scripts/systems/render.js'></script>
     <script src='scripts/game.js'></script>
+
+    <!-- kick everything off -->
+    <script src='scripts/init.js'></script>
 
 </body>
 </html>
