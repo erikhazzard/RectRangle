@@ -40,6 +40,11 @@ a {
 }
 
 canvas {
+    image-rendering:optimizeSpeed;  
+    image-rendering: -webkit-optimize-contrast; 
+    image-rendering: -moz-crisp-edges; 
+
+
     background: #ffffff;
     border: 5px solid #343434;
     border-radius: 3px;
@@ -49,20 +54,6 @@ canvas {
     width: 700px;
     height: 450px;
 }
-
-#game-player {
-    cursor: none;
-    position: absolute;
-    height: 25px;
-    left: 50px;
-    top: 40px;
-    width: 25px;
-}
-    #game-player img {
-        cursor: none;
-        height: 100%;
-        width: 100%;
-    }
 
 /*
 @media only screen and (max-width : 800px) { 
@@ -142,3 +133,20 @@ canvas.goodHit {
     margin: 0;
 }
 .italic { font-style: italic; }
+
+/* Custom animations */
+@-webkit-keyframes animation-pulse {
+	0% { -webkit-transform: scale(1); }
+	30% { -webkit-transform: scale(1.02); }
+	40% { -webkit-transform: scale(1); }
+	70% { -webkit-transform: scale(1.01); }
+	80% { -webkit-transform: scale(1); }
+	100% { -webkit-transform: scale(1); }
+}
+.pulse {
+	-webkit-animation-name: animation-pulse;
+	-webkit-animation-duration: 300ms;
+	-webkit-transform-origin:100% 100%;
+	-webkit-animation-iteration-count: infinite;
+	-webkit-animation-timing-function: linear;
+}

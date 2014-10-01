@@ -40,10 +40,7 @@ ECS.Game = function Game (){
     // have health and collision components
     entity = new ECS.Entity();
     entity.addComponent( new ECS.Components.Appearance());
-    entity.addComponent( new ECS.Components.AppearanceDOMElement({
-        id: 'game-player',
-        isPlayer: true
-    }));
+    entity.addComponent( new ECS.Components.AppearanceImage());
     entity.addComponent( new ECS.Components.Position());
     entity.addComponent( new ECS.Components.PlayerControlled() );
     entity.addComponent( new ECS.Components.Health() );

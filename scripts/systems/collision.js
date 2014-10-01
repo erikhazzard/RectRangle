@@ -96,10 +96,11 @@ ECS.systems.collision = function systemCollision ( entities ) {
                                 // Flash the canvas. NOTE: This is ok for a tutorial,
                                 // but ideally this would not be coupled in the
                                 // collision system
-                                ECS.$canvas.className='badHit';
+                                ECS.$canvasEl.addClass('badHit shake shake-hard shake-constant');
+
                                 setTimeout(function(){
-                                    ECS.$canvas.className='';
-                                }, 100);
+                                    ECS.$canvasEl.removeClass('badHit shake shake-hard shake-constant');
+                                }, 200);
 
                                 // substract even more health from the player
                                 // but don't let it take away more than 5 dm
@@ -113,9 +114,9 @@ ECS.systems.collision = function systemCollision ( entities ) {
                                 // Flash the canvas. NOTE: This is ok for a tutorial,
                                 // but ideally this would not be coupled in the
                                 // collision system
-                                ECS.$canvas.className='goodHit';
+                                ECS.$canvasEl.addClass('goodHit pulse');
                                 setTimeout(function(){
-                                    ECS.$canvas.className='';
+                                    ECS.$canvasEl.removeClass('goodHit pulse');
                                 }, 100);
                             }
                         }

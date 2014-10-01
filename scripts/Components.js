@@ -49,41 +49,6 @@ ECS.Components.AppearanceImage = function ComponentAppearanceImage ( params ){
 };
 ECS.Components.AppearanceImage.prototype.name = 'appearanceImage';
 
-// Appearance - Dom Element
-// -------------------------------------- 
-ECS.Components.AppearanceDOMElement = function ComponentAppearanceDOMElement ( params ){
-    params = params || {};
-    var self = this;
-
-    // If an ID was passed in, use it - otherwise, use a class and create a 
-    // DOM element
-    var $el;
-    if(params.id){
-        $el = $('#game-player');
-    }
-    this.$el = $el;
-
-    if(params.isPlayer){
-        // if it's a player controllable entity, update the position
-        // when the mouse moves
-        var bounds = ECS.$canvas.getBoundingClientRect();
-
-        var lastMoveDate = new Date();
-        $(ECS.$canvas).on('mousemove', function(e){
-            requestAnimationFrame(function(){
-                self.$el.css({
-                    top: e.clientY - bounds.top,
-                    left: e.clientX - bounds.left
-                });
-            });
-        });
-    }
-
-    return this;
-};
-ECS.Components.AppearanceDOMElement.prototype.name = 'appearanceDOMElement';
-
-
 // Health
 // --------------------------------------
 ECS.Components.Health = function ComponentHealth ( value ){
