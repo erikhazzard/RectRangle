@@ -148,23 +148,25 @@ HUNGRYBOX.systems.collision = function systemCollision ( entities ) {
         numNewEntities = 4;
     }
 
+    var healthModifier = 0;
+
     if(entityIdsCollidedWith.length > 0){
         for(i=0; i<entityIdsCollidedWith.length; i++){
             var newEntity;
 
             // if a BIG box got eaten, make a some
             if(entities[entityIdsCollidedWith[i]].components.appearance.size > 10){
-                numNewEntities *= 1.5 | 0;
+                healthModifier = 10;
             }
             else if(entities[entityIdsCollidedWith[i]].components.appearance.size <= SMALL_LIMIT){
-                numNewEntities *= 3.5 | 0;
+                healthModifier = -5;
             }
 
             // IMPORTANT: remove reference to entity
             delete HUNGRYBOX.entities[entityIdsCollidedWith[i]];
 
             // Don't add more entities if there are already too many
-            if(Object.keys(HUNGRYBOX.entities).length < 38){
+            if(Object.keys(HUNGRYBOX.entities).length < 30){
 
                 for(var k=0; k < numNewEntities; k++){
                     // Add some new collision rects randomly
@@ -174,7 +176,9 @@ HUNGRYBOX.systems.collision = function systemCollision ( entities ) {
 
                         // add a % chance that they'll decay
                         if(Math.random() < chanceDecay){
-                            newEntity.addComponent( new HUNGRYBOX.Components.Health() );
+                            newEntity.addComponent( new HUNGRYBOX.Components.Health(
+                                Math.max(15, (10 + ((Math.random * 80) | 0) + healthModifier))
+                            ) );
                         }
                     }
                 }
