@@ -4,6 +4,9 @@
  *  Called to kick off game
  *
  * ========================================================================= */
+// set canvas size based on page width / height
+HUNGRYBOX.$canvas.width = parseInt(HUNGRYBOX.$canvasEl.css('width'));
+HUNGRYBOX.$canvas.height = parseInt(HUNGRYBOX.$canvasEl.css('height'));
 
 // Kick off the game
-ECS.game = new ECS.Game();
+HUNGRYBOX.game = new HUNGRYBOX.Game();

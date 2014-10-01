@@ -7,19 +7,19 @@
  * ========================================================================= */
 function clearCanvas () {
     // Store the current transformation matrix
-    ECS.context.save();
+    HUNGRYBOX.context.save();
 
     // Use the identity matrix while clearing the canvas
-    ECS.context.setTransform(1, 0, 0, 1, 0, 0);
-    ECS.context.clearRect(0, 0, ECS.$canvas.width, ECS.$canvas.height);
+    HUNGRYBOX.context.setTransform(1, 0, 0, 1, 0, 0);
+    HUNGRYBOX.context.clearRect(0, 0, HUNGRYBOX.$canvas.width, HUNGRYBOX.$canvas.height);
 
     // Restore the transform
-    ECS.context.restore();
+    HUNGRYBOX.context.restore();
 }
 
-// ECS - System - Render
+// HUNGRYBOX - System - Render
 // --------------------------------------
-ECS.systems.render = function systemRender ( entities ) {
+HUNGRYBOX.systems.render = function systemRender ( entities ) {
     // Here, we've implemented systems as functions which take in an array of
     // entities. An optimization would be to have some layer which only 
     // feeds in relevant entities to the system, but for demo purposes we'll
@@ -59,26 +59,26 @@ ECS.systems.render = function systemRender ( entities ) {
                 fillStyle += ',1)';
             }
 
-            ECS.context.fillStyle = fillStyle;
+            HUNGRYBOX.context.fillStyle = fillStyle;
 
             // Color big squares differently
             if(!curEntity.components.playerControlled &&
             curEntity.components.appearance.size > 12){
-                ECS.context.fillStyle = 'rgba(0,0,0,0.8)';
+                HUNGRYBOX.context.fillStyle = 'rgba(0,0,0,0.8)';
             }
 
             // draw a little black line around every rect
-            ECS.context.strokeStyle = 'rgba(0,0,0,1)';
+            HUNGRYBOX.context.strokeStyle = 'rgba(0,0,0,1)';
 
             // draw the rect
-            ECS.context.fillRect( 
+            HUNGRYBOX.context.fillRect( 
                 curEntity.components.position.x - curEntity.components.appearance.size,
                 curEntity.components.position.y - curEntity.components.appearance.size,
                 curEntity.components.appearance.size * 2,
                 curEntity.components.appearance.size * 2
             );
             // stroke it
-            ECS.context.strokeRect(
+            HUNGRYBOX.context.strokeRect(
                 curEntity.components.position.x - curEntity.components.appearance.size,
                 curEntity.components.position.y - curEntity.components.appearance.size,
                 curEntity.components.appearance.size * 2,
@@ -90,7 +90,7 @@ ECS.systems.render = function systemRender ( entities ) {
             // For entities that have an IMAGE
             // --------------------------
             // draw the image
-            ECS.context.drawImage(
+            HUNGRYBOX.context.drawImage(
                 curEntity.components.appearanceImage.image,
                 curEntity.components.position.x - curEntity.components.appearance.size,
                 curEntity.components.position.y - curEntity.components.appearance.size,
@@ -101,8 +101,8 @@ ECS.systems.render = function systemRender ( entities ) {
             // draw a box if it's too small
             if(curEntity.components.appearance.size < 8){
                 // draw a little black line around every rect
-                ECS.context.strokeStyle = 'rgba(0,0,0,1)';
-                ECS.context.fillStyle = 'rgba(' + [
+                HUNGRYBOX.context.strokeStyle = 'rgba(0,0,0,1)';
+                HUNGRYBOX.context.fillStyle = 'rgba(' + [
                     curEntity.components.appearance.colors.r,
                     curEntity.components.appearance.colors.g,
                     curEntity.components.appearance.colors.b,
@@ -110,14 +110,14 @@ ECS.systems.render = function systemRender ( entities ) {
                 ];
 
                 // draw the rect
-                ECS.context.fillRect( 
+                HUNGRYBOX.context.fillRect( 
                     curEntity.components.position.x - curEntity.components.appearance.size,
                     curEntity.components.position.y - curEntity.components.appearance.size,
                     curEntity.components.appearance.size * 2,
                     curEntity.components.appearance.size * 2
                 );
                 // stroke it
-                ECS.context.strokeRect(
+                HUNGRYBOX.context.strokeRect(
                     curEntity.components.position.x - curEntity.components.appearance.size,
                     curEntity.components.position.y - curEntity.components.appearance.size,
                     curEntity.components.appearance.size * 2,

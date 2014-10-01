@@ -33,7 +33,7 @@ function doesIntersect(obj1, obj2) {
 
 // Collision system
 // --------------------------------------
-ECS.systems.collision = function systemCollision ( entities ) {
+HUNGRYBOX.systems.collision = function systemCollision ( entities ) {
     // Here, we've implemented systems as functions which take in an array of
     // entities. An optimization would be to have some layer which only 
     // feeds in relevant entities to the system, but for demo purposes we'll
@@ -75,7 +75,7 @@ ECS.systems.collision = function systemCollision ( entities ) {
                     )){
                         // Don't modify the array in place; we're still iterating
                         // over it
-                        entityIdsCollidedWith.push(entityId);
+                        entityIdsCollidedWith.push(entityId2);
                         var negativeDamageCutoff = 12;
 
                         if(curEntity.components.health){
@@ -97,10 +97,10 @@ ECS.systems.collision = function systemCollision ( entities ) {
                                 // Flash the canvas. NOTE: This is ok for a tutorial,
                                 // but ideally this would not be coupled in the
                                 // collision system
-                                ECS.$canvasEl.addClass('badHit shake shake-hard shake-constant');
+                                HUNGRYBOX.$canvasEl.addClass('badHit shake shake-hard shake-constant');
 
                                 setTimeout(function(){
-                                    ECS.$canvasEl.removeClass('badHit shake shake-hard shake-constant');
+                                    HUNGRYBOX.$canvasEl.removeClass('badHit shake shake-hard shake-constant');
                                 }, 200);
 
                                 // substract even more health from the player
@@ -117,23 +117,20 @@ ECS.systems.collision = function systemCollision ( entities ) {
                                 // collision system
                                 // extra bonus for small boxes
                                 if(entities[entityId2].components.appearance.size < SMALL_LIMIT){
-                                    ECS.$canvasEl.addClass('goodHit pulse-big');
+                                    HUNGRYBOX.$canvasEl.addClass('goodHit pulse-big');
                                 } else {
-                                    ECS.$canvasEl.addClass('goodHit pulse');
+                                    HUNGRYBOX.$canvasEl.addClass('goodHit pulse');
                                 }
 
                                 setTimeout(function(){
-                                    ECS.$canvasEl.removeClass('goodHit pulse pulse-big');
+                                    HUNGRYBOX.$canvasEl.removeClass('goodHit pulse pulse-big');
                                 }, 100);
                             }
                         }
 
                         // update the score
-                        ECS.score++;
-                        ECS.$score.innerHTML = ECS.score;
-
-                        delete ECS.entities[entityId2];
-
+                        HUNGRYBOX.score++;
+                        HUNGRYBOX.$score.innerHTML = HUNGRYBOX.score;
                         break;
                     }
                 }
@@ -146,7 +143,7 @@ ECS.systems.collision = function systemCollision ( entities ) {
     var chanceDecay = 0.8;
     var numNewEntities = 3;
 
-    if(ECS.score > 100){
+    if(HUNGRYBOX.score > 100){
         chanceDecay = 0.6;
         numNewEntities = 4;
     }
@@ -155,18 +152,29 @@ ECS.systems.collision = function systemCollision ( entities ) {
         for(i=0; i<entityIdsCollidedWith.length; i++){
             var newEntity;
 
+            // if a BIG box got eaten, make a some
+            if(entities[entityIdsCollidedWith[i]].components.appearance.size > 10){
+                numNewEntities *= 1.5 | 0;
+            }
+            else if(entities[entityIdsCollidedWith[i]].components.appearance.size <= SMALL_LIMIT){
+                numNewEntities *= 3.5 | 0;
+            }
+
+            // IMPORTANT: remove reference to entity
+            delete HUNGRYBOX.entities[entityIdsCollidedWith[i]];
+
             // Don't add more entities if there are already too many
-            if(Object.keys(ECS.entities).length < 30){
+            if(Object.keys(HUNGRYBOX.entities).length < 38){
 
                 for(var k=0; k < numNewEntities; k++){
                     // Add some new collision rects randomly
                     if(Math.random() < 0.8){
-                        newEntity = new ECS.Assemblages.CollisionRect();
-                        ECS.entities[newEntity.id] = newEntity;
+                        newEntity = new HUNGRYBOX.Assemblages.CollisionRect();
+                        HUNGRYBOX.entities[newEntity.id] = newEntity;
 
                         // add a % chance that they'll decay
                         if(Math.random() < chanceDecay){
-                            newEntity.addComponent( new ECS.Components.Health() );
+                            newEntity.addComponent( new HUNGRYBOX.Components.Health() );
                         }
                     }
                 }

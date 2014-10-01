@@ -23,20 +23,20 @@ var userInputPosition = {
 // Setup mouse handling
 // --------------------------------------
 function updateMousePosition(evt) {
-    var rect = ECS.$canvas.getBoundingClientRect();
+    var rect = HUNGRYBOX.$canvas.getBoundingClientRect();
     userInputPosition.x = evt.clientX - rect.left;
     userInputPosition.y = evt.clientY - rect.top;
     userInputPosition.touch = false;
 }
 
-ECS.$canvas.addEventListener('mousemove', function mouseMove (evt) {
+HUNGRYBOX.$canvas.addEventListener('mousemove', function mouseMove (evt) {
     //// update the mouse position when moved
     updateMousePosition(evt);
 }, false);
 
 // Setup the system
 // --------------------------------------
-ECS.systems.userInput = function systemUserInput ( entities ) {
+HUNGRYBOX.systems.userInput = function systemUserInput ( entities ) {
     // Here, we've implemented systems as functions which take in an array of
     // entities. An optimization would be to have some layer which only 
     // feeds in relevant entities to the system, but for demo purposes we'll

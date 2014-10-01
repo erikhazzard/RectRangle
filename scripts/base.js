@@ -1,4 +1,4 @@
-window.ECS = {
+window.HUNGRYBOX = {
     Components: {},
 
     systems: {},
@@ -10,8 +10,8 @@ window.ECS = {
     state: 'title'
 };
 
-ECS.$canvas = document.getElementById("game-canvas");
-ECS.$canvasEl = $(ECS.$canvas); // jquery el ref
-ECS.context = ECS.$canvas.getContext("2d");
+HUNGRYBOX.$canvas = document.getElementById("game-canvas");
+HUNGRYBOX.$canvasEl = $(HUNGRYBOX.$canvas); // jquery el ref
+HUNGRYBOX.context = HUNGRYBOX.$canvas.getContext("2d");
 
-ECS.$score = document.getElementById("score");
+HUNGRYBOX.$score = document.getElementById("score");

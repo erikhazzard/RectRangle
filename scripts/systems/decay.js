@@ -10,12 +10,16 @@
  * ========================================================================= */
 // Setup the system
 // --------------------------------------
-ECS.systems.decay = function systemDecay ( entities ) {
+HUNGRYBOX.systems.decay = function systemDecay ( entities ) {
     // Here, we've implemented systems as functions which take in an array of
     // entities. An optimization would be to have some layer which only 
     // feeds in relevant entities to the system, but for demo purposes we'll
     // assume all entities are passed in and iterate over them.
     var curEntity; 
+
+    // how much to modify decay values by. NOTE: Be sure to use very small
+    // changes here, it will greatly impact play
+    var decayModifier = 1;
 
     // iterate over all entities
     for( var entityId in entities ){
@@ -25,7 +29,7 @@ ECS.systems.decay = function systemDecay ( entities ) {
         if(curEntity.components.playerControlled){
             if(curEntity.components.health.value < 0){
                 // Dead! End game if player controlled
-                ECS.game.endGame();
+                HUNGRYBOX.game.endGame();
                 return false;
             }
         }
@@ -37,19 +41,19 @@ ECS.systems.decay = function systemDecay ( entities ) {
             // --------------------------
             // Here's where we configure how fun the game is
             if(curEntity.components.health.value < 0.7){
-                curEntity.components.health.value -= 0.01;
+                curEntity.components.health.value -= 0.01 * decayModifier;
 
             } else if(curEntity.components.health.value < 2){
-                curEntity.components.health.value -= 0.03;
+                curEntity.components.health.value -= 0.03 * decayModifier;
 
             } else if(curEntity.components.health.value < 10){
-                curEntity.components.health.value -= 0.07;
+                curEntity.components.health.value -= 0.07 * decayModifier;
 
             } else if(curEntity.components.health.value < 20){
-                curEntity.components.health.value -= 0.15;
+                curEntity.components.health.value -= 0.15 * decayModifier;
             } else {
                 // If the square is huge, it should very quickly decay
-                curEntity.components.health.value -= 1;
+                curEntity.components.health.value -= 1 * decayModifier;
             }
 
             // Check for alive / dead
@@ -84,7 +88,7 @@ ECS.systems.decay = function systemDecay ( entities ) {
                 if(curEntity.components.playerControlled){
 
                     // Dead! End game if player controlled
-                    ECS.game.endGame();
+                    HUNGRYBOX.game.endGame();
                 } else {
                     // otherwise, remove the entity
                     delete entities[entityId];

@@ -29,7 +29,6 @@ a {
 }
 
 #canvas-wrapper {
-    border: 5px solid #D3CCB8;
     display: block;
     cursor: none;
     height: 450px;
@@ -47,6 +46,7 @@ canvas {
 
 
     background: #ECE5CE;
+    border: 5px solid #D3CCB8;
     cursor: none;
     transition: all 0.2s;
     position: absolute;
@@ -54,14 +54,12 @@ canvas {
     height: 450px;
 }
 
-/*
 @media only screen and (max-width : 800px) { 
     canvas {
-        width: 300px;
-        height: 200px;
+        width: 400px;
+        height: 300px;
     }
 }
-*/
 
 canvas.game-over {
     background: #181818;
