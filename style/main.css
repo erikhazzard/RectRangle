@@ -18,18 +18,51 @@ a {
     color: #336699;
 }
 
+
+#canvas-wrapper, canvas, #player, #player img {
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+#canvas-wrapper {
+    display: block;
+    cursor: none;
+    height: 450px;
+    position: relative;
+    left: 0;
+    margin: 0 auto;
+    top: 0;
+    width: 700px;
+}
+
 canvas {
     background: #ffffff;
     border: 5px solid #343434;
     border-radius: 3px;
     cursor: none;
-    display: table;
-    margin: 0 auto;
     transition: all 0.2s;
-    position: relative;
-    width: 800px;
-    height: 500px;
+    position: absolute;
+    width: 700px;
+    height: 450px;
 }
+
+#game-player {
+    cursor: none;
+    position: absolute;
+    height: 25px;
+    left: 50px;
+    top: 40px;
+    width: 25px;
+}
+    #game-player img {
+        cursor: none;
+        height: 100%;
+        width: 100%;
+    }
 
 /*
 @media only screen and (max-width : 800px) { 

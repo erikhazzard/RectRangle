@@ -14,7 +14,10 @@
 </head>
 <body>
 <br />
-    <canvas id='game-canvas' width=800 height=500></canvas>
+    <div id='canvas-wrapper'>
+        <canvas id='game-canvas' width=700 height=450></canvas>
+        <div id='game-player'> <img src='/img/boxman1.png' /> </div>
+    </div>
 
     <div id='score' class='center'>0</div>
 
@@ -50,6 +53,9 @@
     </div>
     
     <!-- Scripts -->
+    <script src='/scripts/lib/jquery.js'></script>
+    <script src='/scripts/lib/velocity.js'></script>
+
     <script>
         // For tutorial purposes, we'll set up a global object containing 
         // references to all objects.

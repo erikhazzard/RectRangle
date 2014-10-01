@@ -46,19 +46,11 @@ ECS.systems.collision = function systemCollision ( entities ) {
     for( var entityId in entities ){
         curEntity = entities[entityId];
 
-        // NOTE: Even though we set the colors here, we don't render them 
-        //  (that's the job of the renderer system)
-        curEntity.components.appearance.colors.r = 0;
-
         // Only check for collision on player controllable entities 
         // (playerControlled) and entities with a collision component
         if( curEntity.components.appearance &&
             curEntity.components.playerControlled && 
             curEntity.components.position ){
-
-            // Systems can also modify components...
-            // Clear out existing collision appearance property
-            curEntity.components.appearance.colors.r = 0;
 
             // test for intersection of player controlled rects vs. all other
             // collision rects
@@ -80,9 +72,6 @@ ECS.systems.collision = function systemCollision ( entities ) {
                             size: entities[entityId2].components.appearance.size
                         }
                     )){
-                        curEntity.components.appearance.colors.r = 255;
-                        entities[entityId2].components.appearance.colors.r = 150;
-
                         // Don't modify the array in place; we're still iterating
                         // over it
                         entityIdsCollidedWith.push(entityId);

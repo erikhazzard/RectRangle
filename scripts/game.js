@@ -40,13 +40,16 @@ ECS.Game = function Game (){
     // have health and collision components
     entity = new ECS.Entity();
     entity.addComponent( new ECS.Components.Appearance());
+    entity.addComponent( new ECS.Components.AppearanceDOMElement({
+        id: 'game-player',
+        isPlayer: true
+    }));
     entity.addComponent( new ECS.Components.Position());
     entity.addComponent( new ECS.Components.PlayerControlled() );
     entity.addComponent( new ECS.Components.Health() );
     entity.addComponent( new ECS.Components.Collision() );
 
     // we can also edit any component, as it's just data
-    entity.components.appearance.colors.g = 255;
     entities[entity.id] = entity;
 
     // store reference to entities

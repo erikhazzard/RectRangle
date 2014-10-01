@@ -58,25 +58,24 @@ ECS.systems.decay = function systemDecay ( entities ) {
 
                 // Set style based on other components too - player controlled 
                 // entity should be style differently based on their health
+                //
                 // Update appearance based on health
-                // NOTE: Even though we set appearance properties here, they
-                // don't get rendered here - they get rendered in the render
-                // system
+                // TODO: change size / appearance of rect guy
                 if(curEntity.components.playerControlled){ 
                     if(curEntity.components.health.value > 10){
-                        curEntity.components.appearance.colors.r = 50;
-                        curEntity.components.appearance.colors.g = 255;
-                        curEntity.components.appearance.colors.b = 50;
                     } else {
-                        curEntity.components.appearance.colors.r = 255;
-                        curEntity.components.appearance.colors.g = 50;
-                        curEntity.components.appearance.colors.b = 50;
                     } 
                 }
 
                 // Entity is still ALIVE
-                if(curEntity.components.appearance.size){
+                // Update size in appearance
+                if(curEntity.components.appearance &&
+                curEntity.components.appearance.size){
                     curEntity.components.appearance.size = curEntity.components.health.value;
+                }
+                if(curEntity.components.appearanceImage &&
+                curEntity.components.appearanceImage.size){
+                    curEntity.components.appearanceImage.size = curEntity.components.health.value;
                 }
 
             } else {

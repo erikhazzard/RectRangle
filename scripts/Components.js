@@ -7,6 +7,10 @@
  *  Components are just data. 
  *
  * ========================================================================= */
+var IMAGES = {
+    boxman1: new Image()
+};
+IMAGES.boxman1.src = '/img/boxman1.png';
 
 // Appearance 
 // --------------------------------------
@@ -29,6 +33,56 @@ ECS.Components.Appearance = function ComponentAppearance ( params ){
     return this;
 };
 ECS.Components.Appearance.prototype.name = 'appearance';
+
+// Appearance - Image
+// -------------------------------------- 
+ECS.Components.AppearanceImage = function ComponentAppearanceImage ( params ){
+    params = params || {};
+
+    // name matches key in IMAGES object
+    this.sprite = params.sprite || 'boxman1';
+    // NOTE: size is retrieved from appearance component
+
+    this.image = IMAGES[this.sprite];
+
+    return this;
+};
+ECS.Components.AppearanceImage.prototype.name = 'appearanceImage';
+
+// Appearance - Dom Element
+// -------------------------------------- 
+ECS.Components.AppearanceDOMElement = function ComponentAppearanceDOMElement ( params ){
+    params = params || {};
+    var self = this;
+
+    // If an ID was passed in, use it - otherwise, use a class and create a 
+    // DOM element
+    var $el;
+    if(params.id){
+        $el = $('#game-player');
+    }
+    this.$el = $el;
+
+    if(params.isPlayer){
+        // if it's a player controllable entity, update the position
+        // when the mouse moves
+        var bounds = ECS.$canvas.getBoundingClientRect();
+
+        var lastMoveDate = new Date();
+        $(ECS.$canvas).on('mousemove', function(e){
+            requestAnimationFrame(function(){
+                self.$el.css({
+                    top: e.clientY - bounds.top,
+                    left: e.clientX - bounds.left
+                });
+            });
+        });
+    }
+
+    return this;
+};
+ECS.Components.AppearanceDOMElement.prototype.name = 'appearanceDOMElement';
+
 
 // Health
 // --------------------------------------

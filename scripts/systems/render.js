@@ -17,7 +17,6 @@ function clearCanvas () {
     ECS.context.restore();
 }
 
-
 // ECS - System - Render
 // --------------------------------------
 ECS.systems.render = function systemRender ( entities ) {
@@ -40,8 +39,10 @@ ECS.systems.render = function systemRender ( entities ) {
         //
         // For rendering, we need appearance and position. Your own render 
         // system would use whatever other components specific for your game
-        if( curEntity.components.appearance && curEntity.components.position ){
+        if( !curEntity.components.appearanceDOMElement && !curEntity.components.appearanceImage && curEntity.components.appearance && curEntity.components.position ){
 
+            // Solid image rects
+            // --------------------------
             // Build up the fill style based on the entity's color data
             fillStyle = 'rgba(' + [
                 curEntity.components.appearance.colors.r,
@@ -83,6 +84,62 @@ ECS.systems.render = function systemRender ( entities ) {
                 curEntity.components.appearance.size * 2,
                 curEntity.components.appearance.size * 2
             );
+        } 
+
+        if ( curEntity.components.appearance && curEntity.components.appearanceImage && curEntity.components.position ){
+            // draw a box if it's too small
+            if(curEntity.components.appearance.size < 20){
+                // draw a little black line around every rect
+                ECS.context.strokeStyle = 'rgba(0,0,0,1)';
+                ECS.context.fillStyle = 'rgba(' + [
+                    curEntity.components.appearance.colors.r,
+                    curEntity.components.appearance.colors.g,
+                    curEntity.components.appearance.colors.b,
+                    0
+                ];
+
+                // draw the rect
+                ECS.context.fillRect( 
+                    curEntity.components.position.x - curEntity.components.appearance.size,
+                    curEntity.components.position.y - curEntity.components.appearance.size,
+                    curEntity.components.appearance.size * 2,
+                    curEntity.components.appearance.size * 2
+                );
+                // stroke it
+                ECS.context.strokeRect(
+                    curEntity.components.position.x - curEntity.components.appearance.size,
+                    curEntity.components.position.y - curEntity.components.appearance.size,
+                    curEntity.components.appearance.size * 2,
+                    curEntity.components.appearance.size * 2
+                );
+            }
+
+            // For entities that have an IMAGE
+            // --------------------------
+            ECS.context.drawImage(
+                curEntity.components.appearanceImage.image,
+                curEntity.components.position.x - curEntity.components.appearance.size,
+                curEntity.components.position.y - curEntity.components.appearance.size,
+                curEntity.components.appearance.size * 2,
+                curEntity.components.appearance.size * 2
+            );
         }
+
+        // DOM Elements
+        if ( curEntity.components.appearance && curEntity.components.appearanceDOMElement && curEntity.components.position ){
+
+            this.lastUpdateDate = this.lastUpdateDate || new Date();
+            if(new Date() - this.lastUpdateDate > 50){
+
+                curEntity.components.appearanceDOMElement.$el.velocity({
+                    width: (curEntity.components.appearance.size * 2) | 0,
+                    height: (curEntity.components.appearance.size * 2) | 0
+                }, {duration: 0.05});
+
+                this.lastUpdateDate = new Date();
+            }
+        }
+
+
     }
 };
