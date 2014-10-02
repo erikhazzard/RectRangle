@@ -177,7 +177,7 @@ HUNGRYBOX.systems.collision = function systemCollision ( entities ) {
                         // add a % chance that they'll decay
                         if(Math.random() < chanceDecay){
                             newEntity.addComponent( new HUNGRYBOX.Components.Health(
-                                Math.max(15, (10 + ((Math.random * 80) | 0) + healthModifier))
+                                Math.max(15, (20 + ((Math.random * 80) | 0) + healthModifier))
                             ) );
                         }
                     }
