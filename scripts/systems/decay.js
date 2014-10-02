@@ -29,7 +29,7 @@ HUNGRYBOX.systems.decay = function systemDecay ( entities ) {
         if(curEntity.components.playerControlled){
             if(curEntity.components.health.value < 0){
                 // Dead! End game if player controlled
-                HUNGRYBOX.game.endGame();
+                HUNGRYBOX.game.toGameOver();
                 return false;
             }
         }
@@ -88,7 +88,7 @@ HUNGRYBOX.systems.decay = function systemDecay ( entities ) {
                 if(curEntity.components.playerControlled){
 
                     // Dead! End game if player controlled
-                    HUNGRYBOX.game.endGame();
+                    HUNGRYBOX.game.toGameOver();
                 } else {
                     // otherwise, remove the entity
                     delete entities[entityId];

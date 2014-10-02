@@ -5,7 +5,22 @@ window.HUNGRYBOX = {
     entities: [],
     game: {},
 
-    score: 0
+    score: 0,
+
+    // utility functions
+    util: {
+        clearCanvas: function clearCanvas () {
+            // Store the current transformation matrix
+            HUNGRYBOX.context.save();
+
+            // Use the identity matrix while clearing the canvas
+            HUNGRYBOX.context.setTransform(1, 0, 0, 1, 0, 0);
+            HUNGRYBOX.context.clearRect(0, 0, HUNGRYBOX.$canvas.width, HUNGRYBOX.$canvas.height);
+
+            // Restore the transform
+            HUNGRYBOX.context.restore();
+        }
+    }
 };
 
 HUNGRYBOX.$canvas = document.getElementById("game-canvas");

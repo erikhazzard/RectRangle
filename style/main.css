@@ -111,6 +111,22 @@ canvas.game-over {
 #game-title {
 }
 
+#start-game {
+    margin-top: 200px;
+    z-index: 120;
+}
+.state-game #start-game {
+    z-index: 0;
+}
+
+#canvas-wrapper.state-title,
+#canvas-wrapper.state-title canvas,
+#canvas-wrapper.state-gameOver,
+#canvas-wrapper.state-gameOver canvas {
+    cursor: default !important;
+}
+
+
 /* -------------------------------------------------------------------------
  *
  * Button 
@@ -193,20 +209,11 @@ canvas.game-over {
 #game-over {
     bottom: 80px;
     color: #ffffff;
-    left: 0;
-    position: fixed;
-    opacity: 1;
+    opacity: 0;
     text-align: center;
     text-shadow: 0 0 28px #000000, 1px 1px 28px #000000;
     transition: all 0.3s;
-    right: 0;
-    top: 0;
-    visibility: visible;
     z-index: 200;
-}
-#game-over.hidden {
-    opacity: 0;
-    visibility: hidden;
 }
 #game-over h1,#game-over h2 {
     text-shadow: 1px 1px 0 #888, 2px 2px 0 #888, 3px 3px 0 #888;

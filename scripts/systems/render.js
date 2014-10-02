@@ -5,18 +5,6 @@
  *  Component System
  *
  * ========================================================================= */
-function clearCanvas () {
-    // Store the current transformation matrix
-    HUNGRYBOX.context.save();
-
-    // Use the identity matrix while clearing the canvas
-    HUNGRYBOX.context.setTransform(1, 0, 0, 1, 0, 0);
-    HUNGRYBOX.context.clearRect(0, 0, HUNGRYBOX.$canvas.width, HUNGRYBOX.$canvas.height);
-
-    // Restore the transform
-    HUNGRYBOX.context.restore();
-}
-
 // HUNGRYBOX - System - Render
 // --------------------------------------
 HUNGRYBOX.systems.render = function systemRender ( entities ) {
@@ -27,7 +15,7 @@ HUNGRYBOX.systems.render = function systemRender ( entities ) {
 
     // This happens each tick, so we need to clear out the previous rendered
     // state
-    clearCanvas();
+    HUNGRYBOX.util.clearCanvas();
 
     var curEntity, fillStyle; 
 
@@ -91,7 +79,8 @@ HUNGRYBOX.systems.render = function systemRender ( entities ) {
         } 
 
         if ( curEntity.components.appearance && curEntity.components.appearanceImage && curEntity.components.position ){
-            // For entities that have an IMAGE
+            // --------------------------
+            // For entities that have an IMAGE (the player and other players)
             // --------------------------
             // draw the image
             HUNGRYBOX.context.drawImage(

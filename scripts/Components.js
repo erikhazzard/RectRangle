@@ -68,11 +68,17 @@ HUNGRYBOX.Components.Position = function ComponentPosition ( params ){
     // NOTE: For the tutorial we're coupling the random values to the canvas'
     // width / height, but ideally this would be decoupled (the component should
     // not need to know the canvas's dimensions)
-    this.x = params.x || 20 + (Math.random() * (HUNGRYBOX.$canvas.width - 20) | 0);
-    this.y = params.y || 20 + (Math.random() * (HUNGRYBOX.$canvas.height - 20) | 0);
+    this.x = params.x || this.generateX();
+    this.y = params.y || this.generateY();
 
     return this;
 };
+HUNGRYBOX.Components.Position.prototype.generateX = function(){
+    return 20 + (Math.random() * (HUNGRYBOX.$canvas.width - 20) | 0);
+}
+HUNGRYBOX.Components.Position.prototype.generateY = function(){
+    return 20 + (Math.random() * (HUNGRYBOX.$canvas.height - 20) | 0);
+}
 HUNGRYBOX.Components.Position.prototype.name = 'position';
 
 // playerControlled 

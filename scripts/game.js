@@ -11,6 +11,109 @@ HUNGRYBOX.Game = function Game (){
     // loop.
     var self = this;
 
+    // store and track mouse position
+    this.mousePosition = {
+        x: 300,
+        y: 200
+    };
+
+    this.state = 'title';
+
+    // setup elements
+    this.$title = $('#game-title');
+    this.$gameOver = $('#game-over');
+
+    this.$startGameButton = $('#start-game');
+
+    // transition to game when start button is clicked
+    this.$startGameButton.click(function(e){
+        var bound = HUNGRYBOX.$canvasWrapper[0].getBoundingClientRect();
+
+        var x = e.clientX - bound.left;
+        var y = e.clientY - bound.top;
+
+        // Start the game
+        if(self.state !== 'game'){
+            requestAnimationFrame(function(){
+                self.toGame({ startPosition: {x: x, y: y} });
+            });
+        }
+    });
+
+    HUNGRYBOX.$canvasWrapper.addClass('state-title');
+
+    return this;
+};
+
+// ======================================
+// util
+// ======================================
+HUNGRYBOX.Game.prototype.getPositionAvoidStart = function(startPosition){
+    var targetX, targetY;
+    var x = startPosition.x;
+    var y = startPosition.y;
+
+    var foundX = false;
+    var foundY = false;
+    
+    var avoidFactor = 120;
+
+    while(!foundX && !foundY){
+        // generate x / y and avoid center
+        if(!foundX){
+            targetX = HUNGRYBOX.Components.Position.prototype.generateX();
+            if(targetX < (x - avoidFactor) || targetX > ( x + avoidFactor)){
+                foundX = true;
+            }
+        }
+        if(!foundY){
+            targetY = HUNGRYBOX.Components.Position.prototype.generateY();
+            if(targetY < (y - avoidFactor) || targetY > ( y + avoidFactor)){
+                foundY = true;
+            }
+        }
+    }
+    
+    return {x: targetX, y: targetY};
+};
+
+// ======================================
+//
+// STATE Transitions
+//
+// ======================================
+HUNGRYBOX.Game.prototype.toGame = function toGame(options){
+    var self = this;
+    options = options || {};
+
+    // start position is where the user clicked start
+    var startPosition = options.startPosition;
+
+    this.mousePosition.x = startPosition.x;
+    this.mousePosition.y = startPosition.y;
+
+    // setup elements
+    HUNGRYBOX.$score.html(0);
+    HUNGRYBOX.$canvasWrapper.removeClass('state-title state-gameOver');
+    HUNGRYBOX.$canvasWrapper.addClass('state-game');
+
+    // Hide non game elements
+    requestAnimationFrame(function(){
+        self.$title.velocity({opacity: 0}, {
+            duration: 200,
+            complete: function(){
+                self.$title.hide();
+            }
+        });
+
+        self.$gameOver.velocity({opacity: 0}, {
+            duration: 200,
+            complete: function(){
+                self.$gameOver.hide();
+            }
+        });
+    });
+
     // Create some entities
     // ----------------------------------
     var entities = {}; // object containing { id: entity  }
@@ -20,7 +123,9 @@ HUNGRYBOX.Game = function Game (){
     for(var i=0; i < 20; i++){
         entity = new HUNGRYBOX.Entity();
         entity.addComponent( new HUNGRYBOX.Components.Appearance());
-        entity.addComponent( new HUNGRYBOX.Components.Position());
+        entity.addComponent( new HUNGRYBOX.Components.Position(
+            self.getPositionAvoidStart(startPosition)
+        ));
 
         // % chance for decaying rects
         if(Math.random() < 0.8){
@@ -41,7 +146,7 @@ HUNGRYBOX.Game = function Game (){
     entity = new HUNGRYBOX.Entity();
     entity.addComponent( new HUNGRYBOX.Components.Appearance());
     entity.addComponent( new HUNGRYBOX.Components.AppearanceImage());
-    entity.addComponent( new HUNGRYBOX.Components.Position());
+    entity.addComponent( new HUNGRYBOX.Components.Position(startPosition));
     entity.addComponent( new HUNGRYBOX.Components.PlayerControlled() );
     entity.addComponent( new HUNGRYBOX.Components.Health() );
     entity.addComponent( new HUNGRYBOX.Components.Collision() );
@@ -79,6 +184,8 @@ HUNGRYBOX.Game = function Game (){
         // continue the loop
         if(self._running !== false){
             requestAnimationFrame(gameLoop);
+        } else {
+            HUNGRYBOX.util.clearCanvas();
         }
     }
     // Kick off the game loop
@@ -87,17 +194,26 @@ HUNGRYBOX.Game = function Game (){
     // Lose condition
     // ----------------------------------
     this._running = true; // is the game going?
-    this.endGame = function endGame(){ 
-        self._running = false;
-        document.getElementById('final-score').innerHTML = HUNGRYBOX.score;
-        document.getElementById('game-over').className = '';
+};
 
-        // set a small timeout to make sure we set the background
-        setTimeout(function(){
-            document.getElementById('game-canvas').className = 'game-over';
-        }, 100);
-    };
+HUNGRYBOX.Game.prototype.toGameOver = function endGame(){ 
+    var self = this;
 
+    this._running = false;
 
-    return this;
+    HUNGRYBOX.$canvasWrapper.removeClass('state-game state-title');
+    HUNGRYBOX.$canvasWrapper.addClass('state-gameOver');
+
+    HUNGRYBOX.score = 0;
+
+    //// have gameover?
+    //this.$gameOver.show();
+    //this.$gameOver.velocity({opacity: 1});
+
+    this.$title.show();
+    this.$title.velocity({opacity: 1});
+
+    // get rid of all entities
+    HUNGRYBOX.Entity.prototype._count = 0;
+    HUNGRYBOX.entities = {};
 };

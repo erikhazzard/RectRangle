@@ -25,20 +25,16 @@
                 Play Game
             </div>
         </div>
-    </div>
 
-    <div id='game-over' class='hidden'> 
-        <h1>
-            Game Over
-        </h1>
-        <h2>
-            Final Score:
-            <span id='final-score'>0</span>
-        </h2>
-
-        <h3>
-            <a href='javascript:window.location=window.location;'>Retry</a>
-        </h3>
+        <div id='game-over'> 
+            <h1>
+                Game Over
+            </h1>
+            <h2>
+                Final Score:
+                <span id='final-score'>0</span>
+            </h2>
+        </div>
     </div>
 
     <div class='description center'>
@@ -56,6 +52,7 @@
     </div>
     
     <!-- Scripts -->
+    <script src='/scripts/lib/localforage.js'></script>
     <script src='/scripts/lib/jquery.js'></script>
     <script src='/scripts/lib/velocity.js'></script>
 
@@ -70,7 +67,6 @@
     <script src='scripts/systems/collision.js'></script>
     <script src='scripts/systems/render.js'></script>
 
-    <script src='scripts/state.js'></script>
     <script src='scripts/game.js'></script>
 
     <!-- kick everything off -->
