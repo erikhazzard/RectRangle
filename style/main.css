@@ -152,7 +152,7 @@ canvas.game-over {
     border-left: solid 4px #103a09;
     border-right: solid 4px #103a09;
     border-top: solid 4px #103a09;
-    border-radius: 0;
+    border-radius: 100px;
     box-shadow: 0px 17px 0px 0px #103a09, 0 22px 0 0 rgba(255, 255, 255, 0);
     color: #fff;
     cursor: pointer;
