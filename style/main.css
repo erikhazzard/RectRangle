@@ -1,5 +1,5 @@
 body, html {
-    background: #336699 url(/img/title-screen.png);
+    background: #ffffff;
     bottom: 0;
     font-family: 'VT323', monospace;
     left: 0;
@@ -29,14 +29,18 @@ a {
 }
 
 #canvas-wrapper {
+    background: #336699 url(/img/bg2.png);
+
+    border: 5px solid #000000;
     display: block;
     cursor: none;
-    height: 450px;
     position: relative;
     left: 0;
     margin: 0 auto;
     top: 0;
+
     width: 700px;
+    height: 500px;
 }
 
 canvas {
@@ -44,14 +48,21 @@ canvas {
     image-rendering: -webkit-optimize-contrast; 
     image-rendering: -moz-crisp-edges; 
 
+    -webkit-transition: all 0.01s;
+    -moz-transition: all 0.01s;
+    -o-transition: all 0.01s;
+    transition: all 0.01s;
 
-    background: #ECE5CE;
-    border: 5px solid #D3CCB8;
+    background: rgba(255,255,255,0);
+
     cursor: none;
     transition: all 0.2s;
     position: absolute;
-    width: 700px;
-    height: 450px;
+
+    width: 100%;
+    height: 100%;
+
+    z-index: 100;
 }
 
 @media only screen and (max-width : 800px) { 
@@ -64,18 +75,129 @@ canvas {
 canvas.game-over {
     background: #181818;
 }
-canvas.badHit {
-    background: rgba(255,0,0,0.4);
+#canvas-wrapper.badHit canvas{
+    background: rgba(255,0,0,0.5);
 }
-canvas.goodHit {
+#canvas-wrapper.goodHit canvas{
     background: rgba(0,255,0,0.4);
 }
 
 #score {
+    color: rgba(0,0,0,0.5);
+    left: 0;
     font-size: 6em;
+    margin-left: auto;
+    margin-right: auto;
     position: absolute;
+    right: 0;
 }
 
+#score.updated {
+    -webkit-transition: all 0.1s;
+    -moz-transition: all 0.1s;
+    -o-transition: all 0.1s;
+    transition: all 0.1s;
+
+    color: rgba(0,0,0,1);
+    color: rgba(255,255,255,1);
+    transform: scale(1.1);
+}
+
+/* ======================================
+ * 
+ * title
+ *
+ * ====================================== */
+#game-title {
+}
+
+/* -------------------------------------------------------------------------
+ *
+ * Button 
+ *
+ * --------------------------------------------------------------------------*/
+#button, .button {
+    -webkit-transition: all 0.07s;
+    -moz-transition: all 0.07s;
+    -o-transition: all 0.07s;
+    transition: all 0.07s;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    -webkit-transform: translate(0, 0);
+    -moz-transform: translate(0, 0);
+    transform: translate(0, 0);
+    background: #f0f0f0;
+
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+    -webkit-tap-highlight-color: transparent;
+    -webkit-focus-ring-color:  rgba(0, 0, 0, 0);
+    outline: none;
+
+ -webkit-border-radius: 3px; -moz-border-radius: 3px;border-radius: 3px;font-size:12px;font-family:arial, helvetica, sans-serif; padding: 10px 10px 10px 10px; text-decoration:none; display:inline-block;text-shadow: -1px -1px 0 rgba(0,0,0,0.3);font-weight:bold; color: #FFFFFF;
+ background-color: #4ba614; background-image: -webkit-gradient(linear, left top, left bottom, from(#4ba614), to(#008c00));
+ background-image: -webkit-linear-gradient(top, #4ba614, #008c00);
+ background-image: -moz-linear-gradient(top, #4ba614, #008c00);
+ background-image: -ms-linear-gradient(top, #4ba614, #008c00);
+ background-image: -o-linear-gradient(top, #4ba614, #008c00);
+ background-image: linear-gradient(to bottom, #4ba614, #008c00);filter:progid:DXImageTransform.Microsoft.gradient(GradientType=0,startColorstr=#4ba614, endColorstr=#008c00);
+
+
+
+    
+    border: none;
+    border-left: solid 1px #103a09;
+    border-right: solid 1px #103a09;
+    border-top: solid 1px #103a09;
+    border-radius: 64px;
+    box-shadow: 0px 12px 0px 0px #103a09, 0 19px 0 0 rgba(255, 255, 255, 0);
+    color: #fff;
+    cursor: pointer;
+    display: table;
+    font-size: 3em;
+    font-family: Arial, "Helvetica", sans-serif;
+    margin: 120px auto;
+    padding: 0.9em 0;
+    position: relative;
+    text-align: center;
+    text-decoration: none;
+    text-shadow: 0px -1px 0px rgba(0, 0, 0, 0.5);
+    text-transform: uppercase;
+    top: 0;
+    width: 50%;
+    z-index: 9999999999;
+}
+
+.button:hover {
+    -webkit-transform: translate(0, -3px);
+    -moz-transform: translate(0, -3px);
+    transform: translate(0, -3px);
+    box-shadow: 0px 15px 0px 0px #103a09, 0 19px 0 0 rgba(255, 255, 255, 0);
+}
+
+@-webkit-keyframes bounce {
+    0% { -webkit-transform: translate3d(0,   0px,0); 
+         -webkit-animation-timing-function: ease-out; }
+   50% { -webkit-transform: translate3d(0,-10px,0); 
+         -webkit-animation-timing-function: ease-in; }
+  100% { -webkit-transform: translate3d(0,   0px,0); }
+}
+
+.button:active { 
+  -webkit-transform: translate(0, 5px);
+  -moz-transform: translate(0, 5px);
+  transform: translate(0, 5px);
+  box-shadow: 0 2px 0 0 #103a09, 0 19px 0 0 rgba(255, 255, 255, 0),inset 0px 1px 0px 0px #103a09;
+}
+
+/* ======================================
+ * 
+ * game over
+ *
+ * ====================================== */
 #game-over {
     bottom: 80px;
     color: #ffffff;
@@ -88,6 +210,7 @@ canvas.goodHit {
     right: 0;
     top: 0;
     visibility: visible;
+    z-index: 200;
 }
 #game-over.hidden {
     opacity: 0;
@@ -115,6 +238,7 @@ canvas.goodHit {
 
 
 
+/* reusable classes */
 .center { 
     text-align: center;
 }
@@ -133,13 +257,13 @@ canvas.goodHit {
 
 /* Custom animations */
 @-webkit-keyframes animation-pulse {
-	0% { -webkit-transform: scale(1); } 30% { -webkit-transform: scale(1.02); } 100% { -webkit-transform: scale(1); }
+	0% { -webkit-transform: scale(1); } 30% { -webkit-transform: scale(1.005); } 100% { -webkit-transform: scale(1); }
 }
 @-moz-keyframes animation-pulse {
-	0% { -moz-transform: scale(1); } 30% { -moz-transform: scale(1.02); } 100% { -moz-transform: scale(1); }
+	0% { -moz-transform: scale(1); } 30% { -moz-transform: scale(1.005); } 100% { -moz-transform: scale(1); }
 }
 @-keyframes animation-pulse {
-	0% { transform: scale(1); } 30% { transform: scale(1.02); } 100% { transform: scale(1); }
+	0% { transform: scale(1); } 30% { transform: scale(1.005); } 100% { transform: scale(1); }
 }
 
 .pulse {

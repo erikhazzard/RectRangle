@@ -70,6 +70,10 @@ HUNGRYBOX.systems.render = function systemRender ( entities ) {
             // draw a little black line around every rect
             HUNGRYBOX.context.strokeStyle = 'rgba(0,0,0,1)';
 
+            if(curEntity.components.appearance.size < 1){
+                HUNGRYBOX.context.strokeStyle = 'rgba(255,255,255,1)';
+            }
+
             // draw the rect
             HUNGRYBOX.context.fillRect( 
                 curEntity.components.position.x - curEntity.components.appearance.size,

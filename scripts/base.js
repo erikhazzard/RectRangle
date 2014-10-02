@@ -12,6 +12,7 @@ window.HUNGRYBOX = {
 
 HUNGRYBOX.$canvas = document.getElementById("game-canvas");
 HUNGRYBOX.$canvasEl = $(HUNGRYBOX.$canvas); // jquery el ref
+HUNGRYBOX.$canvasWrapper = $("#canvas-wrapper"); // jquery el ref
 HUNGRYBOX.context = HUNGRYBOX.$canvas.getContext("2d");
 
-HUNGRYBOX.$score = document.getElementById("score");
+HUNGRYBOX.$score = $("#score");

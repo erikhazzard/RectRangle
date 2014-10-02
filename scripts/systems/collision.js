@@ -97,10 +97,10 @@ HUNGRYBOX.systems.collision = function systemCollision ( entities ) {
                                 // Flash the canvas. NOTE: This is ok for a tutorial,
                                 // but ideally this would not be coupled in the
                                 // collision system
-                                HUNGRYBOX.$canvasEl.addClass('badHit shake shake-hard shake-constant');
+                                HUNGRYBOX.$canvasWrapper.addClass('badHit shake shake-hard shake-constant');
 
                                 setTimeout(function(){
-                                    HUNGRYBOX.$canvasEl.removeClass('badHit shake shake-hard shake-constant');
+                                    HUNGRYBOX.$canvasWrapper.removeClass('badHit shake shake-hard shake-constant');
                                 }, 200);
 
                                 // substract even more health from the player
@@ -117,20 +117,26 @@ HUNGRYBOX.systems.collision = function systemCollision ( entities ) {
                                 // collision system
                                 // extra bonus for small boxes
                                 if(entities[entityId2].components.appearance.size < SMALL_LIMIT){
-                                    HUNGRYBOX.$canvasEl.addClass('goodHit pulse-big');
+                                    HUNGRYBOX.$canvasWrapper.addClass('goodHit pulse');
                                 } else {
-                                    HUNGRYBOX.$canvasEl.addClass('goodHit pulse');
+                                    HUNGRYBOX.$canvasWrapper.addClass('goodHit pulse');
                                 }
 
                                 setTimeout(function(){
-                                    HUNGRYBOX.$canvasEl.removeClass('goodHit pulse pulse-big');
+                                    HUNGRYBOX.$canvasWrapper.removeClass('goodHit pulse pulse-big');
                                 }, 100);
                             }
                         }
 
                         // update the score
                         HUNGRYBOX.score++;
-                        HUNGRYBOX.$score.innerHTML = HUNGRYBOX.score;
+
+                        HUNGRYBOX.$score.addClass('updated');
+                        HUNGRYBOX.$score[0].innerHTML = HUNGRYBOX.score;
+
+                        setTimeout(function(){
+                            HUNGRYBOX.$score.removeClass('updated');
+                        }, 100);
                         break;
                     }
                 }

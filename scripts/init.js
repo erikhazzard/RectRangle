@@ -5,8 +5,13 @@
  *
  * ========================================================================= */
 // set canvas size based on page width / height
-HUNGRYBOX.$canvas.width = parseInt(HUNGRYBOX.$canvasEl.css('width'));
-HUNGRYBOX.$canvas.height = parseInt(HUNGRYBOX.$canvasEl.css('height'));
+function resizeCanvas(){
+    HUNGRYBOX.$canvas.width = parseInt(HUNGRYBOX.$canvasEl.css('width'));
+    HUNGRYBOX.$canvas.height = parseInt(HUNGRYBOX.$canvasEl.css('height'));
+}
+
+$(window).resize( resizeCanvas );
+resizeCanvas();
 
 // Kick off the game
 HUNGRYBOX.game = new HUNGRYBOX.Game();
