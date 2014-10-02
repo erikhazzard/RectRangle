@@ -13,5 +13,4 @@ function resizeCanvas(){
 $(window).resize( resizeCanvas );
 resizeCanvas();
 
-// Kick off the game
-HUNGRYBOX.game = new HUNGRYBOX.Game();
+HUNGRYBOX.state.init();

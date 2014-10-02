@@ -5,9 +5,7 @@ window.HUNGRYBOX = {
     entities: [],
     game: {},
 
-    score: 0,
-
-    state: 'title'
+    score: 0
 };
 
 HUNGRYBOX.$canvas = document.getElementById("game-canvas");
