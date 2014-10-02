@@ -10,7 +10,11 @@
  * ========================================================================= */
 // Setup the system
 // --------------------------------------
-HUNGRYBOX.systems.decay = function systemDecay ( entities ) {
+HUNGRYBOX.systems.Decay = function systemDecay () {
+    return this;
+};
+
+HUNGRYBOX.systems.Decay.prototype.run = function decayRun(entities) {
     // Here, we've implemented systems as functions which take in an array of
     // entities. An optimization would be to have some layer which only 
     // feeds in relevant entities to the system, but for demo purposes we'll
@@ -80,6 +84,13 @@ HUNGRYBOX.systems.decay = function systemDecay ( entities ) {
                 if(curEntity.components.appearanceImage &&
                 curEntity.components.appearanceImage.size){
                     curEntity.components.appearanceImage.size = curEntity.components.health.value;
+                }
+
+                // TOO BIG DETECTION
+                if(curEntity.components.playerControlled){
+                    if(curEntity.components.health.value > 100){
+                        curEntity.components.health.value = 40;
+                    }
                 }
 
             } else {

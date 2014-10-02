@@ -5,9 +5,16 @@
  *   other entities that have a collision component
  *
  * ========================================================================= */
-// Basic collision detection for rectangle intersection (NOTE: again, this would
-// live inside the system itself)
-function doesIntersect(obj1, obj2) {
+
+// Collision system
+// --------------------------------------
+HUNGRYBOX.systems.Collision = function systemCollision () {
+    // Basic collision detection for rectangle intersection (NOTE: again, this would
+    // live inside the system itself) 
+    return this;
+};
+
+HUNGRYBOX.systems.Collision.prototype.doesIntersect = function doesIntersect(obj1, obj2) {
     // Takes in two objects with position and size properties
     //  obj1: player controlled position and size
     //  obj2: object to check
@@ -29,15 +36,14 @@ function doesIntersect(obj1, obj2) {
         rect1.x + rect1.width > rect2.x &&
         rect1.y < rect2.y + rect2.height &&
         rect1.height + rect1.y > rect2.y);
-}
+};
 
-// Collision system
-// --------------------------------------
-HUNGRYBOX.systems.collision = function systemCollision ( entities ) {
+HUNGRYBOX.systems.Collision.prototype.run = function collisionRun(entities){
     // Here, we've implemented systems as functions which take in an array of
     // entities. An optimization would be to have some layer which only 
     // feeds in relevant entities to the system, but for demo purposes we'll
     // assume all entities are passed in and iterate over them.
+    var self = this;
     var SMALL_LIMIT = 1.3;
 
     var curEntity; 
@@ -63,7 +69,7 @@ HUNGRYBOX.systems.collision = function systemCollision ( entities ) {
                     entities[entityId2].components.collision &&
                     entities[entityId2].components.appearance ){
 
-                    if( doesIntersect( 
+                    if( self.doesIntersect( 
                         {
                             position: curEntity.components.position,
                             size: curEntity.components.appearance.size
@@ -147,11 +153,11 @@ HUNGRYBOX.systems.collision = function systemCollision ( entities ) {
     // Add new entities if the player collided with any entities
     // ----------------------------------
     var chanceDecay = 0.8;
-    var numNewEntities = 3;
+    var numNewEntities = 2;
 
     if(HUNGRYBOX.score > 100){
         chanceDecay = 0.6;
-        numNewEntities = 4;
+        numNewEntities = 2;
     }
 
     var healthModifier = 0;

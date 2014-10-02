@@ -7,7 +7,11 @@
  * ========================================================================= */
 // HUNGRYBOX - System - Render
 // --------------------------------------
-HUNGRYBOX.systems.render = function systemRender ( entities ) {
+HUNGRYBOX.systems.Render = function systemRender ( entities ) {
+    return this;
+};
+
+HUNGRYBOX.systems.Render.prototype.run = function renderRun( entities ) {
     // Here, we've implemented systems as functions which take in an array of
     // entities. An optimization would be to have some layer which only 
     // feeds in relevant entities to the system, but for demo purposes we'll

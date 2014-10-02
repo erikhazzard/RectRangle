@@ -162,10 +162,11 @@ HUNGRYBOX.Game.prototype.toGame = function toGame(options){
     // Setup the array of systems. The order of the systems is likely critical, 
     // so ensure the systems are iterated in the right order
     var systems = [
-        HUNGRYBOX.systems.userInput,
-        HUNGRYBOX.systems.collision,
-        HUNGRYBOX.systems.decay, 
-        HUNGRYBOX.systems.render
+        new HUNGRYBOX.systems.GenerateBoxes(),
+        new HUNGRYBOX.systems.UserInput(),
+        new HUNGRYBOX.systems.Collision(),
+        new HUNGRYBOX.systems.Decay(), 
+        new HUNGRYBOX.systems.Render()
     ];
     
     // Game loop
@@ -177,7 +178,7 @@ HUNGRYBOX.Game.prototype.toGame = function toGame(options){
             // NOTE: One optimal solution would be to only pass in entities
             // that have the relevant components for the system, instead of 
             // forcing the system to iterate over all entities
-            systems[i](HUNGRYBOX.entities);
+            systems[i].run(HUNGRYBOX.entities);
         }
 
         // Run through the systems. 
