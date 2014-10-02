@@ -149,48 +149,40 @@ canvas.game-over {
 
     
     border: none;
-    border-left: solid 1px #103a09;
-    border-right: solid 1px #103a09;
-    border-top: solid 1px #103a09;
-    border-radius: 64px;
-    box-shadow: 0px 12px 0px 0px #103a09, 0 19px 0 0 rgba(255, 255, 255, 0);
+    border-left: solid 4px #103a09;
+    border-right: solid 4px #103a09;
+    border-top: solid 4px #103a09;
+    border-radius: 0;
+    box-shadow: 0px 17px 0px 0px #103a09, 0 22px 0 0 rgba(255, 255, 255, 0);
     color: #fff;
     cursor: pointer;
     display: table;
-    font-size: 3em;
-    font-family: Arial, "Helvetica", sans-serif;
-    margin: 120px auto;
-    padding: 0.9em 0;
+    font-size: 4em;
+    font-family: 'VT323', monospace;
+    margin: 20px auto;
+    padding: 0.5em 1em;
     position: relative;
     text-align: center;
     text-decoration: none;
     text-shadow: 0px -1px 0px rgba(0, 0, 0, 0.5);
     text-transform: uppercase;
     top: 0;
-    width: 50%;
+    width: 300px;
     z-index: 9999999999;
 }
 
 .button:hover {
-    -webkit-transform: translate(0, -3px);
-    -moz-transform: translate(0, -3px);
-    transform: translate(0, -3px);
-    box-shadow: 0px 15px 0px 0px #103a09, 0 19px 0 0 rgba(255, 255, 255, 0);
-}
-
-@-webkit-keyframes bounce {
-    0% { -webkit-transform: translate3d(0,   0px,0); 
-         -webkit-animation-timing-function: ease-out; }
-   50% { -webkit-transform: translate3d(0,-10px,0); 
-         -webkit-animation-timing-function: ease-in; }
-  100% { -webkit-transform: translate3d(0,   0px,0); }
+    -webkit-transform: translate(0, -2px);
+    -moz-transform: translate(0, -2px);
+    transform: translate(0, -2px);
+    box-shadow: 0px 19px 0px 0px #103a09, 0 24px 0 0 rgba(255, 255, 255, 0);
 }
 
 .button:active { 
-  -webkit-transform: translate(0, 5px);
-  -moz-transform: translate(0, 5px);
-  transform: translate(0, 5px);
-  box-shadow: 0 2px 0 0 #103a09, 0 19px 0 0 rgba(255, 255, 255, 0),inset 0px 1px 0px 0px #103a09;
+  -webkit-transform: translate(0, 10px);
+  -moz-transform: translate(0, 10px);
+  transform: translate(0, 10px);
+  box-shadow: 0 6px 0 0 #103a09, 0 29px 0 0 rgba(255, 255, 255, 0),inset 0px 1px 0px 0px #103a09;
 }
 
 /* ======================================
