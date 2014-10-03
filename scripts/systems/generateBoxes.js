@@ -13,7 +13,7 @@ HUNGRYBOX.systems.GenerateBoxes = function systemGenerate () {
 HUNGRYBOX.systems.GenerateBoxes.prototype.run = function generateRun(entities) {
     // Generate a random box.
     
-    // TODO: Base generation on score and existing boxes
+    // TODO: determine generation based on score and existing boxes
     
     
     // Randomize for now

@@ -5,7 +5,6 @@
  *   other entities that have a collision component
  *
  * ========================================================================= */
-
 // Collision system
 // --------------------------------------
 HUNGRYBOX.systems.Collision = function systemCollision () {
@@ -46,12 +45,20 @@ HUNGRYBOX.systems.Collision.prototype.run = function collisionRun(entities){
     var self = this;
     var SMALL_LIMIT = 1.3;
 
+    // keep track of current date
+    var date = new Date();
+
     var curEntity; 
     var entityIdsCollidedWith = [];
 
     // iterate over all entities
     for( var entityId in entities ){
         curEntity = entities[entityId];
+
+        // If the generation date is too new, don't collide
+        if(date - curEntity.generationDate < HUNGRYBOX.config.generationCollisionDelay){
+            continue;
+        }
 
         // Only check for collision on player controllable entities 
         // (playerControlled) and entities with a collision component
@@ -82,7 +89,7 @@ HUNGRYBOX.systems.Collision.prototype.run = function collisionRun(entities){
                         // Don't modify the array in place; we're still iterating
                         // over it
                         entityIdsCollidedWith.push(entityId2);
-                        var negativeDamageCutoff = 12;
+                        var negativeDamageCutoff = HUNGRYBOX.config.blackBoxSize;
 
                         if(curEntity.components.health){
                             // Increase the entity's health, it ate something

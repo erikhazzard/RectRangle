@@ -21,11 +21,21 @@ HUNGRYBOX.systems.Render.prototype.run = function renderRun( entities ) {
     // state
     HUNGRYBOX.util.clearCanvas();
 
+    var date = new Date();
+
     var curEntity, fillStyle; 
 
     // iterate over all entities
     for( var entityId in entities ){
         curEntity = entities[entityId];
+
+        // don't draw the box yet if it hasn't matched the generation time
+        if(
+            !curEntity.components.playerControlled &&
+            (date - curEntity.generationDate < HUNGRYBOX.config.generationCollisionDelay)
+        ){
+            continue;
+        }
 
         // Only run logic if entity has relevant components
         //
@@ -55,7 +65,7 @@ HUNGRYBOX.systems.Render.prototype.run = function renderRun( entities ) {
 
             // Color big squares differently
             if(!curEntity.components.playerControlled &&
-            curEntity.components.appearance.size > 12){
+            curEntity.components.appearance.size > HUNGRYBOX.config.blackBoxSize){
                 HUNGRYBOX.context.fillStyle = 'rgba(0,0,0,0.8)';
             }
 

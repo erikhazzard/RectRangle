@@ -122,19 +122,19 @@ HUNGRYBOX.Game.prototype.toGame = function toGame(options){
     // Create a bunch of random entities
     for(var i=0; i < 20; i++){
         entity = new HUNGRYBOX.Entity();
-        entity.addComponent( new HUNGRYBOX.Components.Appearance());
-        entity.addComponent( new HUNGRYBOX.Components.Position(
+        entity.addComponent(new HUNGRYBOX.Components.Appearance());
+        entity.addComponent(new HUNGRYBOX.Components.Position(
             self.getPositionAvoidStart(startPosition)
         ));
 
         // % chance for decaying rects
         if(Math.random() < 0.8){
-            entity.addComponent( new HUNGRYBOX.Components.Health() );
+            entity.addComponent(new HUNGRYBOX.Components.Health() );
         }
 
         // NOTE: If we wanted some rects to not have collision, we could set it
         // here. Could provide other gameplay mechanics perhaps?
-        entity.addComponent( new HUNGRYBOX.Components.Collision());
+        entity.addComponent(new HUNGRYBOX.Components.Collision());
 
         entities[entity.id] = entity;
     }
@@ -144,12 +144,12 @@ HUNGRYBOX.Game.prototype.toGame = function toGame(options){
     // Make the last entity the "PC" entity - it must be player controlled,
     // have health and collision components
     entity = new HUNGRYBOX.Entity();
-    entity.addComponent( new HUNGRYBOX.Components.Appearance());
-    entity.addComponent( new HUNGRYBOX.Components.AppearanceImage());
-    entity.addComponent( new HUNGRYBOX.Components.Position(startPosition));
-    entity.addComponent( new HUNGRYBOX.Components.PlayerControlled() );
-    entity.addComponent( new HUNGRYBOX.Components.Health() );
-    entity.addComponent( new HUNGRYBOX.Components.Collision() );
+    entity.addComponent(new HUNGRYBOX.Components.Appearance());
+    entity.addComponent(new HUNGRYBOX.Components.AppearanceImage());
+    entity.addComponent(new HUNGRYBOX.Components.Position(startPosition));
+    entity.addComponent(new HUNGRYBOX.Components.PlayerControlled() );
+    entity.addComponent(new HUNGRYBOX.Components.Health() );
+    entity.addComponent(new HUNGRYBOX.Components.Collision() );
 
     // we can also edit any component, as it's just data
     entities[entity.id] = entity;
@@ -201,6 +201,8 @@ HUNGRYBOX.Game.prototype.toGameOver = function endGame(){
     var self = this;
 
     this._running = false;
+
+    $('.new-box').remove();
 
     HUNGRYBOX.$canvasWrapper.removeClass('state-game state-title');
     HUNGRYBOX.$canvasWrapper.addClass('state-gameOver');

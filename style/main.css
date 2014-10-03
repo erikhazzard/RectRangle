@@ -39,7 +39,7 @@ a {
     margin: 0 auto;
     top: 0;
 
-    width: 700px;
+    width: 830px;
     height: 500px;
 }
 
@@ -101,6 +101,27 @@ canvas.game-over {
     color: rgba(0,0,0,1);
     color: rgba(255,255,255,1);
     transform: scale(1.1);
+}
+
+.new-box {
+    /*
+    -webkit-transition: all 0.3s ease-out;
+    -moz-transition: all 0.3s ease-out; 
+    -o-transition: all 0.3s ease-out; 
+    transition: all 0.3s ease-out; 
+    */
+    -webkit-transition: all 0.3s; 
+    -moz-transition: all 0.3s; 
+    -o-transition: all 0.3s; 
+    transition: all 0.3s; 
+
+    position: absolute;
+    width: 1px;
+    height: 1px;
+
+    opacity: 0;
+
+    transform: scale(1);
 }
 
 /* ======================================

@@ -29,3 +29,11 @@ HUNGRYBOX.$canvasWrapper = $("#canvas-wrapper"); // jquery el ref
 HUNGRYBOX.context = HUNGRYBOX.$canvas.getContext("2d");
 
 HUNGRYBOX.$score = $("#score");
+
+// Configuration
+HUNGRYBOX.config = {
+    // how long to wait until collision matters
+    // NOTE: This should match up with the CSS delay when box is generated
+    generationCollisionDelay: 300,
+    blackBoxSize: 12
+};

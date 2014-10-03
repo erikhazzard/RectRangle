@@ -6,6 +6,8 @@
  *
  * ========================================================================= */
 HUNGRYBOX.Entity = function Entity(){
+    var self = this;
+
     // Generate a pseudo random ID
     this.id = (+new Date()).toString(16) + 
         (Math.random() * 100000000 | 0).toString(16) +
@@ -14,8 +16,59 @@ HUNGRYBOX.Entity = function Entity(){
     // increment counter
     HUNGRYBOX.Entity.prototype._count++;
 
+    // store date it was generated
+    this.generationDate = new Date();
+
     // The component data will live in this object
     this.components = {};
+
+    // add a new box to give a little animation
+    setTimeout(function(){
+
+        requestAnimationFrame(function(){
+            // add a new element
+            var $el = $('<div class="new-box"></div>');
+
+            $el.css({ 
+                background: '#ffffff',
+                opacity: 1,
+                left: self.components.position.x,
+                top: self.components.position.y
+            });
+
+            if(self.components.appearance.size >= HUNGRYBOX.config.blackBoxSize){
+                $el.css({ background: "#000000" });
+            }
+
+            // add new box
+            if(!HUNGRYBOX.game._running){
+                return false;
+            }
+
+            HUNGRYBOX.$canvasWrapper.append( $el );
+
+            setTimeout(function(){
+                requestAnimationFrame(function(){
+                    $el.css({ 
+                        transform: "scale(" + 
+                            (self.components.appearance.size + 2) +
+                        ")",
+                        opacity: 1
+                    });
+                });
+            }, 10);
+
+            setTimeout(function(){
+                $el.velocity({ opacity: 0 }, {
+                    complete: function(){
+                        $el.remove();
+                    }
+                });
+            }, 230);
+
+        });
+
+    }, 10);
 
     return this;
 };
