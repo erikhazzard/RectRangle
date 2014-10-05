@@ -53,18 +53,22 @@ HUNGRYBOX.Entity = function Entity(){
                         transform: "scale(" + 
                             (self.components.appearance.size + 2) +
                         ")",
-                        opacity: 1
+                        opacity: 0.8
                     });
+
+                    // remove it
+                    setTimeout(function(){
+                        $el.velocity({ 
+                            transform: "scale(0)",
+                            opacity: 0 
+                        }, {
+                            complete: function(){
+                                $el.remove();
+                            }
+                        });
+                    }, 200);
                 });
             }, 10);
-
-            setTimeout(function(){
-                $el.velocity({ opacity: 0 }, {
-                    complete: function(){
-                        $el.remove();
-                    }
-                });
-            }, 230);
 
         });
 

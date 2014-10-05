@@ -50,15 +50,13 @@ HUNGRYBOX.systems.Collision.prototype.run = function collisionRun(entities){
 
     var curEntity; 
     var entityIdsCollidedWith = [];
+    // value to give players a little wiggle room for if the rect is too big,
+    // don't have it immediately collide with players
+    var wiggleRoom = 0;
 
     // iterate over all entities
     for( var entityId in entities ){
         curEntity = entities[entityId];
-
-        // If the generation date is too new, don't collide
-        if(date - curEntity.generationDate < HUNGRYBOX.config.generationCollisionDelay){
-            continue;
-        }
 
         // Only check for collision on player controllable entities 
         // (playerControlled) and entities with a collision component
@@ -69,6 +67,20 @@ HUNGRYBOX.systems.Collision.prototype.run = function collisionRun(entities){
             // test for intersection of player controlled rects vs. all other
             // collision rects
             for( var entityId2 in entities){ 
+
+
+                if(entities[entityId2].components.appearance.size >= HUNGRYBOX.config.blackBoxSize){
+                    // add extra delay before collision of black boxes
+                    wiggleRoom = 200;
+                } else {
+                    wiggleRoom = 0;
+                }
+
+                // If the generation date is too new, don't collide
+                if(date - entities[entityId2].generationDate < (HUNGRYBOX.config.generationCollisionDelay + wiggleRoom)){
+                    continue;
+                }
+
                 // Don't check player controller entities for collisions 
                 // (otherwise, it'd always be true)
                 if( !entities[entityId2].components.playerControlled &&
@@ -95,7 +107,11 @@ HUNGRYBOX.systems.Collision.prototype.run = function collisionRun(entities){
                             // Increase the entity's health, it ate something
                             curEntity.components.health.value += Math.max(
                                 -2,
-                                negativeDamageCutoff - entities[entityId2].components.appearance.size
+                                // don't make player take too big of a hit
+                                Math.max(
+                                    negativeDamageCutoff - entities[entityId2].components.appearance.size,
+                                    -25
+                                )
                             );
 
                             // extra bonus for hitting small entities
@@ -107,6 +123,8 @@ HUNGRYBOX.systems.Collision.prototype.run = function collisionRun(entities){
                                 }
                             }
                             if ( entities[entityId2].components.appearance.size > negativeDamageCutoff ){
+                                // COLLISION - BAD RECT
+                                // ----------
                                 // Flash the canvas. NOTE: This is ok for a tutorial,
                                 // but ideally this would not be coupled in the
                                 // collision system
@@ -125,9 +143,8 @@ HUNGRYBOX.systems.Collision.prototype.run = function collisionRun(entities){
 
 
                             } else {
-                                // Flash the canvas. NOTE: This is ok for a tutorial,
-                                // but ideally this would not be coupled in the
-                                // collision system
+                                // COLLISION - BAD RECT
+                                // ----------
                                 // extra bonus for small boxes
                                 if(entities[entityId2].components.appearance.size < SMALL_LIMIT){
                                     HUNGRYBOX.$canvasWrapper.addClass('goodHit pulse');

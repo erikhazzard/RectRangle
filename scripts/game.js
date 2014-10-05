@@ -154,6 +154,9 @@ HUNGRYBOX.Game.prototype.toGame = function toGame(options){
     // we can also edit any component, as it's just data
     entities[entity.id] = entity;
 
+    // store a ref to the player entity (there's only ever one)
+    HUNGRYBOX.PCEntity = entity;
+
     // store reference to entities
     HUNGRYBOX.entities = entities;
 

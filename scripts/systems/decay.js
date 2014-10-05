@@ -24,6 +24,7 @@ HUNGRYBOX.systems.Decay.prototype.run = function decayRun(entities) {
     // how much to modify decay values by. NOTE: Be sure to use very small
     // changes here, it will greatly impact play
     var decayModifier = 1;
+    var date = new Date();
 
     // iterate over all entities
     for( var entityId in entities ){
@@ -33,9 +34,21 @@ HUNGRYBOX.systems.Decay.prototype.run = function decayRun(entities) {
         if(curEntity.components.playerControlled){
             if(curEntity.components.health.value < 0){
                 // Dead! End game if player controlled
+                console.log('Game over! Player died because they ran out of health');
                 HUNGRYBOX.game.toGameOver();
                 return false;
             }
+        }
+
+        // if the entity has no health, it's been around for a very long time, 
+        // and it's not the player, then give it health so it decayse
+        if(!curEntity.components.playerControlled &&
+        date - curEntity.generationDate > 3000 &&
+        !curEntity.components.health){
+
+            curEntity.addComponent( new HUNGRYBOX.Components.Health(
+                curEntity.components.appearance.size
+            ) );
         }
 
         // Only run logic if entity has relevant components
@@ -45,19 +58,31 @@ HUNGRYBOX.systems.Decay.prototype.run = function decayRun(entities) {
             // --------------------------
             // Here's where we configure how fun the game is
             if(curEntity.components.health.value < 0.7){
-                curEntity.components.health.value -= 0.01 * decayModifier;
+                curEntity.components.health.value -= 0.007 * decayModifier;
 
             } else if(curEntity.components.health.value < 2){
-                curEntity.components.health.value -= 0.03 * decayModifier;
+                curEntity.components.health.value -= 0.028 * decayModifier;
 
             } else if(curEntity.components.health.value < 10){
                 curEntity.components.health.value -= 0.07 * decayModifier;
 
             } else if(curEntity.components.health.value < 20){
                 curEntity.components.health.value -= 0.15 * decayModifier;
+
+            } else if(curEntity.components.health.value < 40){
+                // If the square is huge, it should very quickly decay
+                if(curEntity.components.playerControlled){
+                    curEntity.components.health.value -= 1.1 * decayModifier;
+                } else {
+                    curEntity.components.health.value -= 0.3 * decayModifier;
+                }
             } else {
                 // If the square is huge, it should very quickly decay
-                curEntity.components.health.value -= 1 * decayModifier;
+                if(curEntity.components.playerControlled){
+                    curEntity.components.health.value -= 5.1 * decayModifier;
+                } else {
+                    curEntity.components.health.value -= 0.5 * decayModifier;
+                }
             }
 
             // Check for alive / dead

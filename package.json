@@ -1,0 +1,10 @@
+{
+  "name": "hungrybox",
+  "description": "Hungry Box - HTML Version",
+  "version": "0.0.1",
+  "author": "Erik Hazzard <enoex1@gmail.com>",
+  "dependencies": {
+    "bragi-browser": "*",
+    "jquery": "^2.1.1"
+  }
+}
