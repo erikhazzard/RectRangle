@@ -195,18 +195,28 @@
         // ----------------------------------
         var entities = {}; // object containing { id: entity  }
         var entity;
+        var size; 
 
         // Create a bunch of random entities
         for(var i=0; i < 20; i++){
+            size = i;
+            if(i < 5){ size = 5; }
+            else if(i > 16){ size = 12; }
+
             entity = new HUNGRYBOX.Entity();
-            entity.addComponent(new HUNGRYBOX.Components.Appearance());
+            entity.addComponent(new HUNGRYBOX.Components.Appearance({
+                size: size
+            }));
             entity.addComponent(new HUNGRYBOX.Components.Position(
                 self.getPositionAvoidStart(startPosition)
             ));
 
             // % chance for decaying rects
             if(Math.random() < 0.8){
-                entity.addComponent(new HUNGRYBOX.Components.Health() );
+                // don't decay good guys (and some bad guys)
+                if(size > 14){
+                    entity.addComponent(new HUNGRYBOX.Components.Health(size) );
+                }
             }
 
             // NOTE: If we wanted some rects to not have collision, we could set it
