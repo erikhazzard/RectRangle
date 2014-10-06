@@ -1,2 +1,4 @@
 # Hungry Box
-Run `npm install` to setup dependencies and install
+Code is hacked together for the contest. Run `make js` to build.
+
+Visit [RectRangle.com](http://rectrangle.com) to play.
