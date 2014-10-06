@@ -107,6 +107,8 @@
         
         // add entity
         entity = new HUNGRYBOX.Entity();
+        entity.score = message.score;
+
         entity.addComponent(new HUNGRYBOX.Components.Appearance({
             size: 40
         }));
@@ -296,6 +298,7 @@
         HUNGRYBOX.PubNub.pub({
             type: 'death',
             player: HUNGRYBOX.player,
+            sprite: HUNGRYBOX.PCEntity.components.appearanceImage.sprite,
             score: HUNGRYBOX.score,
             isGood: HUNGRYBOX.player.isGood,
             position: {

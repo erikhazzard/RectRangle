@@ -9,8 +9,13 @@
  * ========================================================================= */
 ;(function(){
     var IMAGES = {
-        boxman1: new Image()
+        boxman1: new Image(),
+        boxgirl1: new Image(),
+        boxpac: new Image(),
+        boxrobot: new Image(),
+        boxzombie: new Image()
     };
+    HUNGRYBOX._images = IMAGES;
 
     // setup src of images
     _.each(IMAGES, function(val, key){

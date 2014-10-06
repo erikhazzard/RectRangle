@@ -220,7 +220,7 @@ canvas.game-over {
 
 #h2-title {
     margin: 0;
-    margin-bottom: 46px;
+    margin-bottom: 26px;
     padding: 0;
     text-align: center;
 }
@@ -337,6 +337,7 @@ canvas.game-over {
     text-align: center;
 }
 .invisible {
+    display: none !important;
     opacity: 0 !important;
 }
 .description {

@@ -99,7 +99,7 @@ HUNGRYBOX.systems.GenerateBoxes.prototype.run = function generateRun(entities) {
     // Randomize for now
     if(Math.random() < 0.15){
         // Don't add more entities if there are already too many
-        if(Object.keys(HUNGRYBOX.entities).length < 60){
+        if(Object.keys(HUNGRYBOX.entities).length < 40){
             self.generateBox();
         }
     }

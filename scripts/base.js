@@ -7,8 +7,10 @@
     // configure logger
     // ----------------------------------
     BRAGI.transports.get('Console').property({showMeta: false});
-    //BRAGI.options.groupsDisabled = [/systems/];
-    BRAGI.options.enabled= [/ghost/i];
+    BRAGI.log('game', 'Welcome to Rect Rangle. by @enoex');
+
+    // don't log anything by default
+    BRAGI.options.groupsEnabled = [];
 
     // setup hungrybox
     // ----------------------------------

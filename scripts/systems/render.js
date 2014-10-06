@@ -113,6 +113,10 @@ HUNGRYBOX.systems.Render.prototype.run = function renderRun( entities ) {
             // --------------------------
             // For entities that have an IMAGE (the player and other players)
             // --------------------------
+            if( !HUNGRYBOX._images[curEntity.components.appearanceImage.sprite] ){
+                curEntity.components.appearanceImage.image = HUNGRYBOX._images.boxman1;
+            }
+
             // draw the image
             HUNGRYBOX.context.drawImage(
                 curEntity.components.appearanceImage.image,
