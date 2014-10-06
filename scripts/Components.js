@@ -16,6 +16,7 @@
         boxpac: new Image(),
         boxrobot: new Image(),
         boxzombie: new Image(),
+        reddrangle: new Image(),
         boxghost: new Image()
     };
     HUNGRYBOX._images = IMAGES;
@@ -28,7 +29,11 @@
         },
         {
             sprite: 'boxrobot', name: 'RoboRect',
-            unlock: { highScore: 320 }
+            unlock: { highScore: 200 }
+        },
+        {
+            sprite: 'reddrangle', name: 'ReddRangle',
+            unlock: { highScore: 300 }
         },
         {
             sprite: 'boxzombie', name: 'Zombox',
