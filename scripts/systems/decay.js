@@ -30,11 +30,19 @@ HUNGRYBOX.systems.Decay.prototype.run = function decayRun(entities) {
     for( var entityId in entities ){
         curEntity = entities[entityId];
 
+        if(curEntity.components.otherPlayer){
+            // don't decay ghosts
+            continue;
+        }
+
         // First, check if the entity is dead
         if(curEntity.components.playerControlled){
             if(curEntity.components.health.value < 0){
                 // Dead! End game if player controlled
-                console.log('Game over! Player died because they ran out of health');
+                BRAGI.log(
+                    'decay:systems',
+                    'Game over! Player died because they ran out of health'
+                );
                 HUNGRYBOX.game.toGameOver();
                 return false;
             }

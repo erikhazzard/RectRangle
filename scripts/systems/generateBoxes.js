@@ -17,6 +17,11 @@ HUNGRYBOX.systems.GenerateBoxes.prototype.generateBox = function generateBox(opt
     // Generate a box either randomly or based on passed params
     options = options || {};
 
+    if(Object.keys(HUNGRYBOX.entities).length > 80){
+        // Don't generate if there's too many
+        return;
+    }
+
     // Config based on health
     // ----------------------------------
     // most will decay by default

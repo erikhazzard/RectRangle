@@ -67,11 +67,9 @@ HUNGRYBOX.systems.Collision.prototype.run = function collisionRun(entities){
             // test for intersection of player controlled rects vs. all other
             // collision rects
             for( var entityId2 in entities){ 
-
-
                 if(entities[entityId2].components.appearance.size >= HUNGRYBOX.config.blackBoxSize){
                     // add extra delay before collision of black boxes
-                    wiggleRoom = 200;
+                    wiggleRoom = 300;
                 } else {
                     wiggleRoom = 0;
                 }
@@ -98,12 +96,88 @@ HUNGRYBOX.systems.Collision.prototype.run = function collisionRun(entities){
                             size: entities[entityId2].components.appearance.size
                         }
                     )){
+                        // COLLISION!!
+                        BRAGI.log('collision:systems', 'COLLISION detected!', {
+                            entity1: curEntity, // should ALWAYS be the player entity
+                            entity2: entities[entityId2]
+                        });
+
+                        if(entities[entityId2].components.otherPlayer){
+                            if(!entities[entityId2].ignoreCollision){
+                                BRAGI.log('collision:systems:otherPlayer', 
+                                '[x] collision with another player ghost detected!', {
+                                    entity: entities[entityId2]
+                                });
+
+                                var $boxEl = entities[entityId2].$boxEl;
+
+                                // on collision with player, remove the created div 
+                                $boxEl.velocity("stop");
+                                
+                                // do a little collision effect
+                                $boxEl.addClass('shake shake-hard shake-constant');
+
+                                $boxEl.velocity({
+                                        opacity: 0,
+                                    }, {
+                                        duration: 120,
+                                        easing: "easeInCubic",
+                                        complete: function(){
+                                            $boxEl.remove();
+                                        }
+                                });
+
+                                // TODO: trigger an effect based on the ghost.
+                                // either invincibility or negative points
+                                //  Or reverse
+                                //-------------------
+                                HUNGRYBOX.$canvasWrapper.addClass('goodHit pulse pulse-big');
+
+                                // increase health by a lot
+                                curEntity.components.health.value += 70;
+
+                                setTimeout(function(){
+                                    requestAnimationFrame(function(){
+                                        HUNGRYBOX.$canvasWrapper.removeClass('goodHit pulse pulse-big');
+                                    });
+                                }, 200);
+
+                                // trigger good or bad collision
+                                HUNGRYBOX.game.playersEaten.push({
+                                    isGood: entities[entityId2].components.otherPlayer.isGood,
+                                    name: entities[entityId2].components.otherPlayer.playerName,
+                                    time: new Date(),
+                                    atScore: HUNGRYBOX.score
+                                });
+
+                                // good guy
+                                if(entities[entityId2].components.otherPlayer.isGood){
+                                    HUNGRYBOX.util.collision.ghostGood(
+                                        entities[entityId2]
+                                    );
+                                } else {
+                                    HUNGRYBOX.util.collision.ghostBad(
+                                        entities[entityId2]
+                                    );
+                                }
+
+                                // don't collide again
+                                entities[entityId2].ignoreCollision = true;
+                                delete entities[entityId2];
+                            }
+
+                            continue;
+                        }
+
+
                         // Don't modify the array in place; we're still iterating
                         // over it
                         entityIdsCollidedWith.push(entityId2);
                         var negativeDamageCutoff = HUNGRYBOX.config.blackBoxSize;
 
                         if(curEntity.components.health){
+                            var previousHealth = curEntity.components.health.value;
+
                             // Increase the entity's health, it ate something
                             curEntity.components.health.value += Math.max(
                                 -2,
@@ -113,6 +187,13 @@ HUNGRYBOX.systems.Collision.prototype.run = function collisionRun(entities){
                                     -25
                                 )
                             );
+                            BRAGI.log(
+                                'collision:systems',
+                                'player ate a box', {
+                                    previousHealth: previousHealth,
+                                    newHealth: curEntity.components.health.value,
+                                    collidedSize: entities[entityId2].components.appearance.size
+                            });
 
                             // extra bonus for hitting small entities
                             if(entities[entityId2].components.appearance.size < SMALL_LIMIT){
@@ -136,14 +217,24 @@ HUNGRYBOX.systems.Collision.prototype.run = function collisionRun(entities){
 
                                 // substract even more health from the player
                                 // but don't let it take away more than 5 dm
+                                var healthBeforeSecondCutoff = curEntity.components.health.value;
+
                                 curEntity.components.health.value -= Math.min(
                                     5,
                                     entities[entityId2].components.appearance.size - negativeDamageCutoff
                                 );
 
+                                BRAGI.log(
+                                    'collision:systems:secondCutoff',
+                                    'limitting max damage', {
+                                        healthBeforeSecondCutoff: healthBeforeSecondCutoff,
+                                        newHealth: curEntity.components.health.value,
+                                        collidedSize: entities[entityId2].components.appearance.size
+                                });
+
 
                             } else {
-                                // COLLISION - BAD RECT
+                                // COLLISION - GOOD RECT
                                 // ----------
                                 // extra bonus for small boxes
                                 if(entities[entityId2].components.appearance.size < SMALL_LIMIT){

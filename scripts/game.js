@@ -16,6 +16,19 @@ HUNGRYBOX.Game = function Game (){
         x: 300,
         y: 200
     };
+    
+    // game modes
+    //  normal - default
+    //  viceversa - white becomes black, vice versa
+    //  NOT USED (yet)
+    this.mode = 'normal';
+
+    // players eaten each round
+    this.playersEaten = [];
+
+    // if another player dies outside of the game, we need to add that player
+    // when the game starts
+    this.entitiesToAdd = [];
 
     this.state = 'title';
 
@@ -75,6 +88,58 @@ HUNGRYBOX.Game.prototype.getPositionAvoidStart = function(startPosition){
     }
     
     return {x: targetX, y: targetY};
+};
+
+
+// --------------------------------------
+// handle multi-player death
+// --------------------------------------
+HUNGRYBOX.Game.prototype.handleMultiplayerDeath = function otherPlayerDied(message){
+    var self = this;
+    
+    // called when another player dies
+    BRAGI.log('game:handleMultiplayerDeath', 'other player died', {
+        message: message
+    });
+    
+    // add entity
+    entity = new HUNGRYBOX.Entity();
+    entity.addComponent(new HUNGRYBOX.Components.Appearance({
+        size: 40
+    }));
+
+    entity.addComponent(new HUNGRYBOX.Components.AppearanceImage({
+        sprite: message.sprite || 'boxman1'
+    }));
+
+    entity.addComponent(new HUNGRYBOX.Components.OtherPlayer({
+        playerName: message.player.name,
+        isGood: message.player.isGood
+    }));
+
+    entity.addComponent(new HUNGRYBOX.Components.Position({
+        x: message.position.x,
+        y: message.position.y
+    }));
+
+    // % chance for decaying rects
+    if(Math.random() < 0.8){
+        entity.addComponent(new HUNGRYBOX.Components.Health() );
+    }
+
+    // NOTE: If we wanted some rects to not have collision, we could set it
+    // here. Could provide other gameplay mechanics perhaps?
+    entity.addComponent(new HUNGRYBOX.Components.Collision());
+
+    // if the game is on the title screen or gameover screen, add the entity
+    // when the game starts
+    this.entitiesToAdd.push(entity);
+
+    // If the game is running, add it directly to the entities array
+    if(HUNGRYBOX.entities){
+        HUNGRYBOX.entities[entity.id] = entity;
+    } 
+    return;
 };
 
 // ======================================
@@ -139,6 +204,13 @@ HUNGRYBOX.Game.prototype.toGame = function toGame(options){
         entities[entity.id] = entity;
     }
 
+    // if there are existing entities that need to be added
+    // ----------------------------------
+    var gameStartDate = new Date();
+    _.each(this.entitiesToAdd, function(entity){
+        entities[entity.id] = entity;
+    });
+
     // PLAYER entity
     // ----------------------------------
     // Make the last entity the "PC" entity - it must be player controlled,
@@ -200,26 +272,73 @@ HUNGRYBOX.Game.prototype.toGame = function toGame(options){
     this._running = true; // is the game going?
 };
 
+
+// --------------------------------------
+//
+// LOSE
+//
+// --------------------------------------
 HUNGRYBOX.Game.prototype.toGameOver = function endGame(){ 
     var self = this;
-
     this._running = false;
-
+    // get rid of any box divs
     $('.new-box').remove();
 
+    var deathPosition = HUNGRYBOX.PCEntity.components.position;
+
+    // publish a message 
+    HUNGRYBOX.PubNub.pub({
+        type: 'death',
+        player: HUNGRYBOX.player,
+        score: HUNGRYBOX.score,
+        isGood: HUNGRYBOX.player.isGood,
+        position: {
+            x: deathPosition.x,
+            y: deathPosition.y
+        }
+    });
+
+    // change css / html states
+    // ----------------------------------
     HUNGRYBOX.$canvasWrapper.removeClass('state-game state-title');
     HUNGRYBOX.$canvasWrapper.addClass('state-gameOver');
 
-    HUNGRYBOX.score = 0;
+    //update local store
+    // ----------------------------------
+    if(HUNGRYBOX.score >= (HUNGRYBOX.highScore || 0)){
+        HUNGRYBOX.highScore = HUNGRYBOX.score;  
+        HUNGRYBOX.player.highScore = HUNGRYBOX.highScore;
+    }
+    HUNGRYBOX.player.scores.push({
+        score: HUNGRYBOX.score,
+        date: new Date(),
+        deathPosition: {x: deathPosition.x, y: deathPosition.y}
+    });
 
-    //// have gameover?
+    // sort the list by score, then make sure it's not too big
+    HUNGRYBOX.player.scores = _.sortBy(HUNGRYBOX.player.scores, function(d){ 
+        return -d.score; 
+    });
+    HUNGRYBOX.player.scores = HUNGRYBOX.player.scores.splice(0, 20);
+
+    localforage.setItem('player', JSON.stringify(HUNGRYBOX.player));
+
+    // Reset values
+    // ----------------------------------
+    HUNGRYBOX.score = 0;
+    HUNGRYBOX.numPlayersEaten = 0;
+    this.entitiesToAdd = [];
+    this.playersEaten = [];
+
+    //// TODO: if we have a gameover screen, show it
     //this.$gameOver.show();
     //this.$gameOver.velocity({opacity: 1});
 
+    // show title
     this.$title.show();
     this.$title.velocity({opacity: 1});
 
     // get rid of all entities
     HUNGRYBOX.Entity.prototype._count = 0;
-    HUNGRYBOX.entities = {};
+    delete HUNGRYBOX.entities; 
 };

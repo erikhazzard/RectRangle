@@ -4,7 +4,10 @@
   "version": "0.0.1",
   "author": "Erik Hazzard <enoex1@gmail.com>",
   "dependencies": {
-    "bragi-browser": "*",
-    "jquery": "^2.1.1"
+    "bragi-browser": "0.0.7",
+    "jquery": "^2.1.1",
+    "localforage": "^1.0.1",
+    "pubnub": "^3.6.7",
+    "velocity-animate": "^1.1.0"
   }
 }

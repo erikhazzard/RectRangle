@@ -7,92 +7,111 @@
  *  Components are just data. 
  *
  * ========================================================================= */
-var IMAGES = {
-    boxman1: new Image()
-};
-IMAGES.boxman1.src = '/img/boxman1.png';
+;(function(){
+    var IMAGES = {
+        boxman1: new Image()
+    };
 
-// Appearance 
-// --------------------------------------
-HUNGRYBOX.Components.Appearance = function ComponentAppearance ( params ){
-    // Appearance specifies data for color and size
-    params = params || {};
+    // setup src of images
+    _.each(IMAGES, function(val, key){
+        IMAGES[key].src = HUNGRYBOX.config.imageHostPrefix + key + '.png';
+    });
 
-    this.colors = params.colors;
-    if(!this.colors){
-        // generate random color if not passed in (get 6 random hex values)
-        this.colors = {
-            r: 255,
-            g: 255,
-            b: 255
-        };
-    }
+    // Appearance 
+    // --------------------------------------
+    HUNGRYBOX.Components.Appearance = function ComponentAppearance ( params ){
+        // Appearance specifies data for color and size
+        params = params || {};
 
-    this.size = params.size || (1 + (Math.random() * 30 | 0));
+        this.colors = params.colors;
+        if(!this.colors){
+            // generate random color if not passed in (get 6 random hex values)
+            this.colors = {
+                r: 255,
+                g: 255,
+                b: 255
+            };
+        }
 
-    return this;
-};
-HUNGRYBOX.Components.Appearance.prototype.name = 'appearance';
+        this.size = params.size || (1 + (Math.random() * 30 | 0));
 
-// Appearance - Image
-// -------------------------------------- 
-HUNGRYBOX.Components.AppearanceImage = function ComponentAppearanceImage ( params ){
-    params = params || {};
+        return this;
+    };
+    HUNGRYBOX.Components.Appearance.prototype.name = 'appearance';
 
-    // name matches key in IMAGES object
-    this.sprite = params.sprite || 'boxman1';
-    // NOTE: size is retrieved from appearance component
+    // Appearance - Image
+    // -------------------------------------- 
+    HUNGRYBOX.Components.AppearanceImage = function ComponentAppearanceImage ( params ){
+        params = params || {};
 
-    this.image = IMAGES[this.sprite];
+        // name matches key in IMAGES object
+        this.sprite = params.sprite || 'boxman1';
 
-    return this;
-};
-HUNGRYBOX.Components.AppearanceImage.prototype.name = 'appearanceImage';
+        // NOTE: size is retrieved from appearance component
+        this.image = IMAGES[this.sprite];
 
-// Health
-// --------------------------------------
-HUNGRYBOX.Components.Health = function ComponentHealth ( value ){
-    value = value || 20;
-    this.value = value;
+        return this;
+    };
+    HUNGRYBOX.Components.AppearanceImage.prototype.name = 'appearanceImage';
 
-    return this;
-};
-HUNGRYBOX.Components.Health.prototype.name = 'health';
+    // Health
+    // --------------------------------------
+    HUNGRYBOX.Components.Health = function ComponentHealth ( value ){
+        value = value || 20;
+        this.value = value;
 
-// Position
-// --------------------------------------
-HUNGRYBOX.Components.Position = function ComponentPosition ( params ){
-    params = params || {};
+        return this;
+    };
+    HUNGRYBOX.Components.Health.prototype.name = 'health';
 
-    // Generate random values if not passed in
-    // NOTE: For the tutorial we're coupling the random values to the canvas'
-    // width / height, but ideally this would be decoupled (the component should
-    // not need to know the canvas's dimensions)
-    this.x = params.x || this.generateX();
-    this.y = params.y || this.generateY();
+    // Position
+    // --------------------------------------
+    HUNGRYBOX.Components.Position = function ComponentPosition ( params ){
+        params = params || {};
 
-    return this;
-};
-HUNGRYBOX.Components.Position.prototype.generateX = function(){
-    return 20 + (Math.random() * (HUNGRYBOX.$canvas.width - 20) | 0);
-}
-HUNGRYBOX.Components.Position.prototype.generateY = function(){
-    return 20 + (Math.random() * (HUNGRYBOX.$canvas.height - 20) | 0);
-}
-HUNGRYBOX.Components.Position.prototype.name = 'position';
+        // Generate random values if not passed in
+        // NOTE: For the tutorial we're coupling the random values to the canvas'
+        // width / height, but ideally this would be decoupled (the component should
+        // not need to know the canvas's dimensions)
+        this.x = params.x || this.generateX();
+        this.y = params.y || this.generateY();
 
-// playerControlled 
-// --------------------------------------
-HUNGRYBOX.Components.PlayerControlled = function ComponentPlayerControlled ( params ){
-    this.pc = true;
-    return this;
-};
-HUNGRYBOX.Components.PlayerControlled.prototype.name = 'playerControlled';
+        return this;
+    };
+    HUNGRYBOX.Components.Position.prototype.generateX = function(){
+        return 20 + (Math.random() * (HUNGRYBOX.$canvas.width - 20) | 0);
+    };
+    HUNGRYBOX.Components.Position.prototype.generateY = function(){
+        return 20 + (Math.random() * (HUNGRYBOX.$canvas.height - 20) | 0);
+    };
+    HUNGRYBOX.Components.Position.prototype.name = 'position';
 
-// Collision
-// --------------------------------------
-HUNGRYBOX.Components.Collision = function ComponentCollision ( params ){
-    this.collides = true;
-    return this;
-};
-HUNGRYBOX.Components.Collision.prototype.name = 'collision';
+    // playerControlled 
+    // --------------------------------------
+    HUNGRYBOX.Components.PlayerControlled = function ComponentPlayerControlled ( params ){
+        this.pc = true;
+        return this;
+    };
+    HUNGRYBOX.Components.PlayerControlled.prototype.name = 'playerControlled';
+
+    // otherPlayer
+    // --------------------------------------
+    HUNGRYBOX.Components.OtherPlayer = function ComponentOtherPlayer ( params ){
+        // if this box was another player
+        this.otherPlayer = true;
+
+        this.playerName = params.playerName || 'AnonymousCoward';
+        this.isGood = params.isGood !== undefined ? params.isGood : true;
+
+        return this;
+    };
+    HUNGRYBOX.Components.OtherPlayer.prototype.name = 'otherPlayer';
+
+    // Collision
+    // --------------------------------------
+    HUNGRYBOX.Components.Collision = function ComponentCollision ( params ){
+        this.collides = true;
+        return this;
+    };
+    HUNGRYBOX.Components.Collision.prototype.name = 'collision';
+})();

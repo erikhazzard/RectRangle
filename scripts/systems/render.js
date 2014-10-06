@@ -29,6 +29,10 @@ HUNGRYBOX.systems.Render.prototype.run = function renderRun( entities ) {
     for( var entityId in entities ){
         curEntity = entities[entityId];
 
+        // don't render other players (is handled by entity, divs are drawn
+        // then fade)
+        if(curEntity.components.otherPlayer){ continue; }
+
         // don't draw the box yet if it hasn't matched the generation time
         if(
             !curEntity.components.playerControlled &&
@@ -64,16 +68,29 @@ HUNGRYBOX.systems.Render.prototype.run = function renderRun( entities ) {
             HUNGRYBOX.context.fillStyle = fillStyle;
 
             // Color big squares differently
-            if(!curEntity.components.playerControlled &&
-            curEntity.components.appearance.size > HUNGRYBOX.config.blackBoxSize){
-                HUNGRYBOX.context.fillStyle = 'rgba(0,0,0,0.8)';
+            if(HUNGRYBOX.game.mode === 'normal'){
+                if(!curEntity.components.playerControlled &&
+                curEntity.components.appearance.size > HUNGRYBOX.config.blackBoxSize){
+                    HUNGRYBOX.context.fillStyle = 'rgba(0,0,0,0.8)';
+                }
+            } else if(HUNGRYBOX.game.mode === 'viceversa'){
+                if(!curEntity.components.playerControlled &&
+                curEntity.components.appearance.size <= HUNGRYBOX.config.blackBoxSize){
+                    HUNGRYBOX.context.fillStyle = 'rgba(0,0,0,0.8)';
+                }
             }
 
             // draw a little black line around every rect
             HUNGRYBOX.context.strokeStyle = 'rgba(0,0,0,1)';
 
-            if(curEntity.components.appearance.size < 1){
-                HUNGRYBOX.context.strokeStyle = 'rgba(255,255,255,1)';
+            if(HUNGRYBOX.game.mode === 'normal'){
+                if(curEntity.components.appearance.size < 1){
+                    HUNGRYBOX.context.strokeStyle = 'rgba(255,255,255,1)';
+                }
+            } else if(HUNGRYBOX.game.mode === 'viceversa'){
+                if(curEntity.components.appearance.size < 1){
+                    HUNGRYBOX.context.strokeStyle = 'rgba(0,0,0,1)';
+                }
             }
 
             // draw the rect
