@@ -66,6 +66,9 @@
                         message: message
                     });
 
+                    // clean it
+                    message.player.name = message.player.name.replace(/[^a-zA-Z0-9 '".,?@#]/gi, '');
+
                     // do some message limitting
                     numMessages++;
                     if(numMessages > 3){

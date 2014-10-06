@@ -68,39 +68,4 @@
         otherPlayerDecayTime: 5000,
         imageHostPrefix: '/img/'
     };
-
-    // Setup data
-    // --------------------------------------
-    localforage.getItem('player', function(err, player){
-        try{
-            player = JSON.parse(player);
-        } catch(parseError){
-            player = null;
-        }
-
-        // setup player object
-        HUNGRYBOX.player = player || {
-            id: (Math.random()*10000|0).toString(16) + (+new Date()).toString(16),
-
-            // generate a shitty random name
-            name: 'box-' + (Math.random()*10000|0).toString(16) + (+new Date()).toString(16),
-            isGood: true,
-            scores: [],
-            highScore: 0
-        };
-
-        // keep track of last access date (useful for dev and data insights)
-        HUNGRYBOX.player.lastAccessDate = HUNGRYBOX.loadDate;
-
-        BRAGI.log('localforage', 'got player data: ', {
-            player: HUNGRYBOX.player
-        });
-
-        localforage.setItem('player', JSON.stringify(HUNGRYBOX.player));
-
-        // setup pubnub client after a small delay
-        setTimeout(function(){
-            HUNGRYBOX.PubNub.client.setup();
-        }, 40);
-    });
 })();

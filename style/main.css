@@ -39,8 +39,8 @@ a {
     margin: 0 auto;
     top: 0;
 
-    width: 830px;
-    height: 500px;
+    width: 840px;
+    height: 450px;
 }
 
 canvas {
@@ -75,7 +75,7 @@ canvas.game-over {
     background: rgba(0,255,0,0.4);
 }
 
-#score {
+#score, #high-score {
     color: rgba(0,0,0,0.5);
     left: 0;
     font-size: 6em;
@@ -84,9 +84,33 @@ canvas.game-over {
     position: absolute;
     opacity: 0.5;
     text-shadow: 0 0 1px #000000, 1px 1px 0 #ffffff;
+
+    color: #ffffff;
+    text-shadow: 0 0 1px #000000, 1px 1px 0 #000000;
     top: -6px;
     right: 0;
 }
+.state-title #score, .state-gameOver #score,
+.state-title #high-score, .state-gameOver #high-score {
+    opacity: 1;
+}
+
+#high-score {
+    border-top: 1px solid #ffffff;
+    color: #ffffff;
+    font-size: 3em;
+    margin-left: -40px;
+    padding-top: 10px;
+    text-align: center;
+    text-shadow: 0 0 1px #000000, 1px 1px 2px #000000;
+    left: 252px;
+    right: 210px;
+    top: 100px;
+}
+.state-game #high-score {
+    opacity: 0;
+}
+
 
 #score.updated {
     -webkit-transition: all 0.1s;
@@ -110,6 +134,13 @@ canvas.game-over {
     -moz-transition: all 0.8s cubic-bezier(0.19, 1, 0.22, 1), opacity 0.2s;
     -o-transition: all 0.8s cubic-bezier(0.19, 1, 0.22, 1), opacity 0.2s;
     transition: all 0.8s cubic-bezier(0.19, 1, 0.22, 1), opacity 0.2s;
+
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
 
     position: absolute;
     width: 2px;
@@ -157,7 +188,7 @@ canvas.game-over {
 }
 
 #start-game {
-    margin-top: 200px;
+    margin-top: 304px;
     z-index: 120;
 }
 .state-game #start-game {
@@ -171,6 +202,28 @@ canvas.game-over {
     cursor: default !important;
 }
 
+#player-name-wrapper {
+    color: #ffffff;
+    font-size: 1.5em;
+    left: 320px;
+    position: absolute;
+    text-shadow: 0 0 1px #000000;
+    top: 240px;
+    z-index: 200;
+}
+#player-name {
+    border: 3px solid #000000;
+    font-family: 'VT323', monospace;
+    font-size: 0.8em;
+    padding: 4px;
+}
+
+#h2-title {
+    margin: 0;
+    margin-bottom: 46px;
+    padding: 0;
+    text-align: center;
+}
 
 /* -------------------------------------------------------------------------
  *
@@ -206,9 +259,6 @@ canvas.game-over {
  background-image: -o-linear-gradient(top, #4ba614, #008c00);
  background-image: linear-gradient(to bottom, #4ba614, #008c00);filter:progid:DXImageTransform.Microsoft.gradient(GradientType=0,startColorstr=#4ba614, endColorstr=#008c00);
 
-
-
-    
     border: none;
     border-left: solid 4px #103a09;
     border-right: solid 4px #103a09;
@@ -221,7 +271,7 @@ canvas.game-over {
     font-size: 4em;
     font-family: 'VT323', monospace;
     margin: 20px auto;
-    padding: 0.5em 1em;
+    padding: 0.3em 1.2em;
     position: relative;
     text-align: center;
     text-decoration: none;
@@ -286,6 +336,9 @@ canvas.game-over {
 .center { 
     text-align: center;
 }
+.invisible {
+    opacity: 0 !important;
+}
 .description {
     padding-top: 1em;
 }
@@ -334,6 +387,19 @@ canvas.game-over {
 /* --------------------------------------
  * responsive
  * -------------------------------------- */
-@media only screen and (max-width : 800px) { 
-
+#mobile-version {
+    display: none;
+}
+@media only screen and (max-width : 500px) { 
+    #mobile-version {
+        background: #ffffff;
+        display: block;
+        opacity: 1;
+        bottom: 0;
+        left: 0;
+        position: fixed;
+        right: 0;
+        top: 0;
+        z-index: 99999999;
+    }
 }
