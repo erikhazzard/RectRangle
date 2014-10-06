@@ -7,6 +7,7 @@
  * ========================================================================= */
 ;(function(){
     var $name = $('#player-name-wrapper');
+    var $playerSkins = $('#player-skins');
 
     HUNGRYBOX.Game = function Game (){
         // This is our "main" function which controls everything. We setup the 
@@ -28,6 +29,8 @@
 
         // players eaten each round
         this.playersEaten = [];
+
+        HUNGRYBOX.numPlayersEaten = 0;
 
         // if another player dies outside of the game, we need to add that player
         // when the game starts
@@ -156,7 +159,9 @@
         var self = this;
         options = options || {};
 
+        // hide things
         $name.addClass('invisible');
+        $playerSkins.addClass('invisible');
 
         // start position is where the user clicked start
         var startPosition = options.startPosition;
@@ -224,7 +229,9 @@
         // have health and collision components
         entity = new HUNGRYBOX.Entity();
         entity.addComponent(new HUNGRYBOX.Components.Appearance());
-        entity.addComponent(new HUNGRYBOX.Components.AppearanceImage());
+        entity.addComponent(new HUNGRYBOX.Components.AppearanceImage({
+            sprite: HUNGRYBOX.player.sprite
+        }));
         entity.addComponent(new HUNGRYBOX.Components.Position(startPosition));
         entity.addComponent(new HUNGRYBOX.Components.PlayerControlled() );
         entity.addComponent(new HUNGRYBOX.Components.Health() );
@@ -291,6 +298,7 @@
         $('.new-box').remove();
 
         $name.removeClass('invisible');
+        $playerSkins.removeClass('invisible');
 
         var deathPosition = HUNGRYBOX.PCEntity.components.position;
 
@@ -314,7 +322,7 @@
 
         //update local store
         // ----------------------------------
-        if(HUNGRYBOX.score >= (HUNGRYBOX.highScore || 0)){
+        if(HUNGRYBOX.score >= (HUNGRYBOX.player.highScore || 0)){
             HUNGRYBOX.highScore = HUNGRYBOX.score;  
             HUNGRYBOX.player.highScore = HUNGRYBOX.highScore;
 
@@ -332,8 +340,14 @@
             return -d.score; 
         });
         HUNGRYBOX.player.scores = HUNGRYBOX.player.scores.splice(0, 20);
+        HUNGRYBOX.player.deaths++;
+        HUNGRYBOX.player.totalRectsEaten += HUNGRYBOX.score;
+        HUNGRYBOX.player.totalPlayersEaten += HUNGRYBOX.numPlayersEaten;
 
         localforage.setItem('player', JSON.stringify(HUNGRYBOX.player));
+
+        // re-setup skins
+        HUNGRYBOX.setupSkins();
 
         // Reset values
         // ----------------------------------

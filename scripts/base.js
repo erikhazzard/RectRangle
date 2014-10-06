@@ -19,6 +19,10 @@
 
         player: {
             isGood: true,
+            deaths: 0,
+            sprite: 'boxman1',
+            totalPlayersEaten: 0,
+            totalRectsEaten: 0,
             score: 0,
             highScore: 0,
             scores: []

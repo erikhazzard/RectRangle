@@ -15,35 +15,63 @@
 </head>
 <body>
     <h2 id='h2-title'>Rect Rangle</h2>
-    <div id='canvas-wrapper'>
-        <canvas id='game-canvas' width=700 height=450></canvas>
-        <div id='score' class='center'>0</div>
-        <div id='high-score' class='center invisible'>
-            Best: 
-            <span id='high-score-value'>0</span>
+
+    <div id='game-area'>
+        <!-- (left side) -->
+        <div id='player-skins'>
+            <h4>
+                Skins
+            </h4>
+
+            <div id='skins-list'>
+                <!-- NOTE: filled in here -->
+            </div>
+
+            <!-- TEMPLATE for skin item -->
+            <script type='text/template' id='skins-item-template'>
+                <div class='skin-item-inner'>
+                    <img width=50 height=50 src='/img/<%= sprite %>.png' />
+                    <div class='skin-info'>
+                        <span class='skin-name'><%= name %></span>
+                        <br />
+                        <%= requirements %>
+                    </div>
+                    <div class='clear'></div>
+                </div>
+            </script>
+
         </div>
 
-        <!-- game states -->
-        <div id='game-title'>
+        <!-- game canvas -->
+        <div id='canvas-wrapper'>
+            <canvas id='game-canvas' width=700 height=450></canvas>
+            <div id='score' class='center'>0</div>
+            <div id='high-score' class='center invisible'>
+                Best: 
+                <span id='high-score-value'>0</span>
+            </div>
 
-            <div id='start-game' class='start-game button'>
-                Play Game
+            <!-- game states -->
+            <div id='game-title'>
+
+                <div id='start-game' class='start-game button'>
+                    Play Game
+                </div>
+            </div>
+
+            <div id='game-over'> 
+                <!-- NOT used -->
+            </div>
+
+            <div id='player-name-wrapper'>
+                Name: 
+                <input id='player-name' 
+                    maxlength=20
+                    type='text' 
+                    placeholder='spocket rocket' 
+                    />
             </div>
         </div>
-
-        <div id='game-over'> 
-            <!-- NOT used -->
-        </div>
-
-        <div id='player-name-wrapper'>
-            Name: 
-            <input id='player-name' 
-                maxlength=20
-                type='text' 
-                placeholder='spocket rocket' 
-                />
-        </div>
-
     </div>
 
     <div class='description center'>
@@ -51,13 +79,18 @@
         Black squares hurt. White squares help. The smaller the square, the more it helps.
         </p>
         <br />
+
+        
+        <div id='tweet-wrapper'>
+            <a href='https://twitter.com/share' id='twitter-button' class='twitter-share-button' data-text='Beat my score on RectRangle' data-via='rectrangle' data-size='large' data-related='enoex' data-hashtags='html5,gamedev,javascript,bbg'>Tweet</a>
+            <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
+        </div>
+
+
+        <br />
         <br />
         <br />
         <a href='http://vasir.net' target='blank'>Vasir Games</a> by <a href='http://twitter.com/enoex' target='blank'>@enoex</a>.
-        <br />
-<a href="https://twitter.com/share" class="twitter-share-button" data-via="enoex" data-hashtags="html5">Tweet</a>
-<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
-        </p>
     </div>
 
     <div id='mobile-version'>
@@ -69,5 +102,15 @@
 
     <!-- scripts -->
     <script src='build/all.min.js'></script>
+
+    <script>
+        (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+        ga('create', 'UA-55449131-1', 'auto');
+        ga('send', 'pageview');
+    </script>
 </body>
 </html>

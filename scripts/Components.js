@@ -8,19 +8,48 @@
  *
  * ========================================================================= */
 ;(function(){
+    // XXXXXXXXXXXXXXXXXXXXXXXXXX
+    // TODO: this is gnarly, needs to be refactor
     var IMAGES = {
         boxman1: new Image(),
         boxgirl1: new Image(),
         boxpac: new Image(),
         boxrobot: new Image(),
-        boxzombie: new Image()
+        boxzombie: new Image(),
+        boxghost: new Image()
     };
     HUNGRYBOX._images = IMAGES;
+
+    HUNGRYBOX.skinsInfo = [
+        { sprite: 'boxman1', name: 'Default' },
+        {
+            sprite: 'boxgirl1', name: 'Wifey',
+            unlock: { highScore: 100 }
+        },
+        {
+            sprite: 'boxrobot', name: 'RoboRect',
+            unlock: { highScore: 320 }
+        },
+        {
+            sprite: 'boxzombie', name: 'Zombox',
+            unlock: { deaths: 40 }
+        },
+        {
+            sprite: 'boxpac', name: 'PacRect',
+            unlock: { totalRectsEaten: 10000 }
+        },
+        // TODO: Add more unlocks
+        {
+            sprite: 'boxghost', name: 'Ghost',
+            unlock: { totalRectsEaten: 10000000, hide: true }
+        },
+    ];
 
     // setup src of images
     _.each(IMAGES, function(val, key){
         IMAGES[key].src = HUNGRYBOX.config.imageHostPrefix + key + '.png';
     });
+    // XXXXXXXXXXXXXXXXXXXXXXXXXX
 
     // Appearance 
     // --------------------------------------

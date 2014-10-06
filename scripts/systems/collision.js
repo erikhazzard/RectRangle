@@ -161,6 +161,8 @@ HUNGRYBOX.systems.Collision.prototype.run = function collisionRun(entities){
                                     );
                                 }
 
+                                HUNGRYBOX.numPlayersEaten++;
+
                                 // don't collide again
                                 entities[entityId2].ignoreCollision = true;
                                 delete entities[entityId2];
