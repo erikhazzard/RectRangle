@@ -29,19 +29,19 @@
         },
         {
             sprite: 'boxrobot', name: 'RoboRect',
-            unlock: { highScore: 200 }
+            unlock: { highScore: 350 }
         },
         {
             sprite: 'reddrangle', name: 'ReddRangle',
-            unlock: { highScore: 300 }
+            unlock: { highScore: 620 }
         },
         {
             sprite: 'boxzombie', name: 'Zombox',
-            unlock: { deaths: 40 }
+            unlock: { deaths: 60 }
         },
         {
             sprite: 'boxpac', name: 'PacRect',
-            unlock: { totalRectsEaten: 10000 }
+            unlock: { totalRectsEaten: 20000 }
         },
         // TODO: Add more unlocks
         {

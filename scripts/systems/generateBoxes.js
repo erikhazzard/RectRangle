@@ -43,16 +43,19 @@ HUNGRYBOX.systems.GenerateBoxes.prototype.generateBox = function generateBox(opt
 
     } else if(HUNGRYBOX.score < 100){
         decayChance = 0.5;
-        size = Math.random() * 55 | 0;
+        size = Math.random() * 45 | 0;
 
     } else if(HUNGRYBOX.score < 250){
         decayChance = 0.3;
-        size = Math.random() * 85 | 0;
+        size = Math.random() * 55 | 0;
 
-    } else if(HUNGRYBOX.score < 500){
+    } else if(HUNGRYBOX.score < 450){
         decayChance = 0.1;
-        size = Math.random() * 135 | 0;
+        size = 19 + (Math.random() * 40 | 0);        
 
+    } else {
+        decayChance = 0;
+        size = 29 + (Math.random() * 70 | 0);
     }
 
     // decay chance might be 0, so explicitly check for undefined
@@ -75,8 +78,12 @@ HUNGRYBOX.systems.GenerateBoxes.prototype.generateBox = function generateBox(opt
     }
 
     // if size is really big, generate another small one somewhere
-    if(size > 25){
-        this.generateBox({ size: Math.random() * 10, decayChance: 0.8 });
+    if(HUNGRYBOX.score < 200){
+        if(size > 25){
+            if(Math.random() < 0.3){
+                this.generateBox({ size: 3 + Math.random() * 11, decayChance: 0.8 });
+            }
+        }
     }
 };
 

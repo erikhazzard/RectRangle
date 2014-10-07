@@ -37,7 +37,7 @@ a {
     position: absolute;
     left: 0;
     top: 0;
-    width: 194px;
+    width: 200px;
     z-index: 999;
 }
 #player-skins h4 {
@@ -53,12 +53,12 @@ a {
 /* Skins List */
 #skins-list {
     position: absolute;
-    top: 46px;
+    top: 49px;
     left: 0;
     right: 0;
-    bottom: 20px;
     overflow: auto;
-    height: 403px;
+    overflow-y: scroll;
+    height: 400px;
 }
 #player-skins .skin-item-wrapper {
 
@@ -71,7 +71,7 @@ a {
     border: 2px solid rgba(0,0,0,0);
     cursor: pointer;
     padding: 2px 4px;
-    margin-bottom: 12px;
+    margin-bottom: 13px;
 }
 #player-skins .skin-item-wrapper:hover {
     background: rgba(255,255,255,0.4);
@@ -99,6 +99,25 @@ a {
     float: left;
     margin-left: 6px;
     max-width: 110px;
+}
+
+#player-skins .last-item {
+    display: block;
+    height: 40px;
+}
+#fadeout {
+    background: -moz-linear-gradient(top,  rgba(190,156,126,0) 0%, rgba(190,156,126,1) 98%);
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(190,156,126,0)), color-stop(98%,rgba(190,156,126,1)));
+    background: -webkit-linear-gradient(top,  rgba(190,156,126,0) 0%,rgba(190,156,126,1) 98%);
+    background: -o-linear-gradient(top,  rgba(190,156,126,0) 0%,rgba(190,156,126,1) 98%);
+    background: -ms-linear-gradient(top,  rgba(190,156,126,0) 0%,rgba(190,156,126,1) 98%);
+    background: linear-gradient(to bottom,  rgba(190,156,126,0) 0%,rgba(190,156,126,1) 98%);
+    bottom:0; 
+    height:26px;
+    left:0;
+    position:absolute;
+    right:0; 
+    z-index:2;
 }
 
 /* ======================================

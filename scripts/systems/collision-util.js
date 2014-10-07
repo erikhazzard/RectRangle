@@ -16,6 +16,8 @@
 
             //// remove ALL bad rects and spawn some good ones
             requestAnimationFrame(function(){
+
+                // delete bad rects
                 _.each(HUNGRYBOX.entities, function(entity, key){
                     if(entity.components.appearance &&
                         !entity.components.playerControlled && 
@@ -24,6 +26,18 @@
 
                     ){
                         delete HUNGRYBOX.entities[key];
+                    }
+                });
+
+                // make some good ones
+                _.each(_.range(14), function(){
+                    if(Object.keys(HUNGRYBOX.entities).length < 35){
+                        HUNGRYBOX.systems.GenerateBoxes.prototype.generateBox.call(
+                            HUNGRYBOX.systems.GenerateBoxes,
+                            {
+                                size: 4 + (Math.random * 8|0),
+                                decayChance: 0.4
+                        });
                     }
                 });
             });

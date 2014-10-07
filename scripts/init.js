@@ -113,7 +113,9 @@
     });
 
     // ----------------------------------
+    //
     // Setup skins
+    //
     // ----------------------------------
     var $skins = $('#skins-list');
     var $skinsTemplate = _.template($('#skins-item-template').html());
@@ -207,6 +209,11 @@
             // add the element
             $skins.append( $el );
         });
+
+        // add a final last item
+        $skins.append( $('<div></div>').attr({
+            'class': 'last-item'
+        }));
     };
 
     // ----------------------------------

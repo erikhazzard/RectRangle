@@ -60,16 +60,25 @@
                 // clean it
                 message.player.name = message.player.name.replace(/[^a-zA-Z0-9 '".,?@#]/gi, '');
 
-                // do some message limitting
-                numMessagesPerSecond++;
-                numMessagesPerTenSeconds++;
+                var secCutoff = 2;
+                var tenSecCutoff = 16;
 
-                if(numMessagesPerSecond > 3){
+                // if the game is running and they have a high score, limit
+                // incoming messages
+                if(HUNGRYBOX.game.state === 'game'){
+                    if(HUNGRYBOX.player.score > 150){
+                        secCutoff = 1;
+                        tenSecCutoff = 5;
+                    }
+                }
+
+                // do some message limitting
+                if(numMessagesPerSecond >= secCutoff){
                     BRAGI.log('pubnub', 
                         'too many messages received per second, ignoring...');
                     return;
                 }
-                if(numMessagesPerTenSeconds > 20){
+                if(numMessagesPerTenSeconds >= tenSecCutoff){
                     BRAGI.log('pubnub', 
                         'too many messages per 10 seconds, ignoring...');
                     return;
@@ -79,6 +88,10 @@
                 if(message.type === 'death'){
                     HUNGRYBOX.game.handleMultiplayerDeath(message);
                 }
+
+                // limit messages
+                numMessagesPerSecond++;
+                numMessagesPerTenSeconds++;
             },
 
             connect : function onConnect() {

@@ -159,6 +159,9 @@
         var self = this;
         options = options || {};
 
+        // Give GA some info
+        ga('send', 'event', 'game', 'start', HUNGRYBOX.player.name); 
+
         // hide things
         $name.addClass('invisible');
         $playerSkins.addClass('invisible');
@@ -342,6 +345,9 @@
             );
         }
 
+        // Give GA some info
+        ga('send', 'event', 'game', 'gameover', HUNGRYBOX.score); 
+        
         // shore the total rects eaten (after the second play, when the total
         // rects eaten > high score)
         if(HUNGRYBOX.player.totalRectsEaten > HUNGRYBOX.player.highScore){
