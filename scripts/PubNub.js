@@ -7,12 +7,18 @@
 ;(function(){
     var start = new Date();
 
-    var numMessages = 0;
+    // keep track of a couple message rates
+    var numMessagesPerSecond = 0;
+    var numMessagesPerTenSeconds = 0;
 
     // reset all messages after 1 second, to allow message rate limiting 
     setInterval(function resetMessages(){
-        numMessages = 0;
+        numMessagesPerSecond = 0;
     }, 1000);
+
+    setInterval(function resetMessages(){
+        numMessagesPerTenSeconds = 0;
+    }, 1000 * 10);
 
     HUNGRYBOX.PubNub = {
         client: PUBNUB.init({
@@ -45,42 +51,33 @@
             channel : HUNGRYBOX.PubNub.channel,
 
             message : function onMessage(message){ 
-                // Do something
-                
-                // If the received message was from THIS player, do nothing
-                if(message.player && 
-                message.player.name === HUNGRYBOX.player.name &&
-                // FOR DEV:
-                (+new Date(message.player.lastAccessDate)) === +HUNGRYBOX.loadDate
-                ){
-                    // SAME player
-                    BRAGI.log('pubnub', '[X] received message. SAME player, ignoring: ', {
-                        message: message
-                    });
+                // Handle message. *DO* the same behavior for the local player
+                // as for a remote player
+                BRAGI.log('pubnub', 'received message from a different player: ', {
+                    message: message
+                });
+
+                // clean it
+                message.player.name = message.player.name.replace(/[^a-zA-Z0-9 '".,?@#]/gi, '');
+
+                // do some message limitting
+                numMessagesPerSecond++;
+                numMessagesPerTenSeconds++;
+
+                if(numMessagesPerSecond > 3){
+                    BRAGI.log('pubnub', 
+                        'too many messages received per second, ignoring...');
                     return;
+                }
+                if(numMessagesPerTenSeconds > 20){
+                    BRAGI.log('pubnub', 
+                        'too many messages per 10 seconds, ignoring...');
+                    return;
+                }
 
-
-                } else {
-                    // DIFFERENT player
-                    BRAGI.log('pubnub', 'received message from a different player: ', {
-                        message: message
-                    });
-
-                    // clean it
-                    message.player.name = message.player.name.replace(/[^a-zA-Z0-9 '".,?@#]/gi, '');
-
-                    // do some message limitting
-                    numMessages++;
-                    if(numMessages > 3){
-                        BRAGI.log('pubnub', 
-                            'too many messages received, ignoring...');
-                        return;
-                    }
-
-
-                    if(message.type === 'death'){
-                        HUNGRYBOX.game.handleMultiplayerDeath(message);
-                    }
+                // Draw the ghost
+                if(message.type === 'death'){
+                    HUNGRYBOX.game.handleMultiplayerDeath(message);
                 }
             },
 

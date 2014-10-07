@@ -16,11 +16,13 @@
 
     var names1 = [
         'hungry', 'happy', 'sad', 'content', 'mellow', 'chill', 'angry',
-        'anxious'
+        'anxious', 'disturbed', 'eager', 'pleased', 'unlucky'
     ];
     var names2 = [
         'lasso', 'cowboy', 'cowangle', 'coffeebean', 'hat',
-        'shirt', 'square', 'triangle', 'cube', 'rhombus'
+        'shirt', 'square', 'triangle', 'cube', 'rhombus',
+        'keyboard', 'puppy', 'wrangler', 'ranger', 'zombie',
+        'hairnet', 'rapper', 'artist'
     ];
 
     var randomName = names1[Math.random() * names1.length | 0] + 
@@ -60,7 +62,7 @@
             id: (Math.random()*10000|0).toString(16) + (+new Date()).toString(16),
 
             // generate a random name
-            name: randomName,
+            name: '',
             setName: false,
             isGood: true,
             sprite: 'boxman1',
@@ -76,11 +78,20 @@
 
         } else {
             $name.attr({ placeholder: randomName });
+            HUNGRYBOX.player.name = randomName;
         }
 
         if(HUNGRYBOX.player.highScore > 0){
             $('#high-score').removeClass('invisible');
-            $('#high-score-value').html(HUNGRYBOX.player.highScore);
+            $('#high-score-value').html(
+                HUNGRYBOX.util.addCommas(HUNGRYBOX.player.highScore)
+            );
+        }
+        if(HUNGRYBOX.player.totalRectsEaten > 0){
+            $('#total-eaten').removeClass('invisible');
+            $('#total-eaten-value').html(
+                HUNGRYBOX.util.addCommas(HUNGRYBOX.player.totalRectsEaten)
+            );
         }
 
         // keep track of last access date (useful for dev and data insights)

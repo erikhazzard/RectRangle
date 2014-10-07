@@ -337,8 +337,20 @@
             HUNGRYBOX.player.highScore = HUNGRYBOX.highScore;
 
             $('#high-score').removeClass('invisible');
-            $('#high-score-value').html(HUNGRYBOX.player.highScore);
+            $('#high-score-value').html(
+                HUNGRYBOX.util.addCommas(HUNGRYBOX.player.highScore)
+            );
         }
+
+        // shore the total rects eaten (after the second play, when the total
+        // rects eaten > high score)
+        if(HUNGRYBOX.player.totalRectsEaten > HUNGRYBOX.player.highScore){
+            $('#total-eaten').removeClass('invisible');
+            $('#total-eaten-value').html(
+                HUNGRYBOX.util.addCommas(HUNGRYBOX.player.totalRectsEaten)
+            );
+        }
+
         HUNGRYBOX.player.scores.push({
             score: HUNGRYBOX.score,
             date: new Date(),

@@ -14,7 +14,18 @@
 
 </head>
 <body>
-    <h2 id='h2-title'>Rect Rangle</h2>
+    <div id='h2-title-wrapper'>
+        <h2 id='h2-title'>
+            Rect Rangle
+        </h2>
+
+        
+        <div id='tweet-wrapper'>
+            <a href='https://twitter.com/share' id='twitter-button' class='twitter-share-button' data-text='Beat my score on RectRangle' data-via='rectrangle' data-size='large' data-related='enoex' data-hashtags='html5,gamedev,javascript,bbg'>Tweet</a>
+            <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
+        </div>
+
+    </div>
 
     <div id='game-area'>
         <!-- (left side) -->
@@ -50,6 +61,10 @@
                 Best: 
                 <span id='high-score-value'>0</span>
             </div>
+            <div id='total-eaten' class='center invisible'>
+                Total Eaten: 
+                <span id='total-eaten-value'>0</span>
+            </div>
 
             <!-- game states -->
             <div id='game-title'>
@@ -68,26 +83,21 @@
                 <input id='player-name' 
                     maxlength=20
                     type='text' 
-                    placeholder='spocket rocket' 
+                    placeholder=''
                     />
             </div>
         </div>
     </div>
 
     <div class='description center'>
+        <br />
         <p>
         Black squares hurt. White squares help. The smaller the square, the more it helps.
+        <br />
+        When you die, your ghost will help other players.
         </p>
         <br />
 
-        
-        <div id='tweet-wrapper'>
-            <a href='https://twitter.com/share' id='twitter-button' class='twitter-share-button' data-text='Beat my score on RectRangle' data-via='rectrangle' data-size='large' data-related='enoex' data-hashtags='html5,gamedev,javascript,bbg'>Tweet</a>
-            <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
-        </div>
-
-
-        <br />
         <br />
         <br />
         <a href='http://vasir.net' target='blank'>Vasir Games</a> by <a href='http://twitter.com/enoex' target='blank'>@enoex</a>.

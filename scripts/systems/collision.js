@@ -255,7 +255,7 @@ HUNGRYBOX.systems.Collision.prototype.run = function collisionRun(entities){
                         HUNGRYBOX.score++;
 
                         HUNGRYBOX.$score.addClass('updated');
-                        HUNGRYBOX.$score[0].innerHTML = HUNGRYBOX.score;
+                        HUNGRYBOX.$score[0].innerHTML = HUNGRYBOX.util.addCommas(HUNGRYBOX.score);
 
                         setTimeout(function(){
                             HUNGRYBOX.$score.removeClass('updated');

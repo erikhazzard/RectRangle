@@ -161,7 +161,7 @@ canvas.game-over {
     background: rgba(0,255,0,0.4);
 }
 
-#score, #high-score {
+#score, #high-score, #total-eaten {
     color: rgba(0,0,0,0.5);
     left: 0;
     font-size: 6em;
@@ -177,31 +177,10 @@ canvas.game-over {
     right: 0;
 }
 #score {
-    margin-left: 40px; 
+    margin-left: 50px; 
 }
-.state-title #score, .state-gameOver #score,
-.state-title #high-score, .state-gameOver #high-score {
-    opacity: 1;
-}
-
-#high-score {
-    border-top: 1px solid #ffffff;
-    color: #ffffff;
-    font-size: 3em;
-    margin-left: -40px;
-    padding-top: 10px;
-    text-align: center;
-    text-shadow: 0 0 1px #000000, 1px 1px 2px #000000;
-    left: 292px;
-    right: 180px;
-    top: 100px;
-}
-.state-game #high-score {
-    opacity: 0;
-}
-
-
-#score.updated {
+/* Animation when score is updated */
+#score.updated, #high-score.updated, #total-eaten.updated {
     -webkit-transition: all 0.1s;
     -moz-transition: all 0.1s;
     -o-transition: all 0.1s;
@@ -212,6 +191,43 @@ canvas.game-over {
     transform: scale(1.1);
 }
 
+.state-title #score, .state-gameOver #score,
+.state-title #high-score, .state-gameOver #high-score,
+.state-title #total-eaten, .state-gameOver #total-eaten {
+    opacity: 1;
+}
+
+#high-score, #total-eaten {
+    border-top: 1px solid #ffffff;
+    color: #ffffff;
+    font-size: 3em;
+    margin-left: -40px;
+    padding-top: 10px;
+    text-align: center;
+    text-shadow: 0 0 1px #000000, 1px 1px 2px #000000;
+    left: 292px;
+    right: 180px;
+    top: 100px;
+
+    left: 280px;
+    right: 150px;
+}
+
+#total-eaten {
+    border: none;
+    border-bottom: 1px solid #ffffff;
+    font-size: 1.4em;
+    left: 280px;
+    top: 170px;
+    padding-bottom: 14px;
+    right: 150px;
+}
+.state-game #high-score, 
+.state-game #total-eaten {
+    opacity: 0;
+}
+
+/* GAME - ghost player */
 .new-box, .other-player {
     /*
     -webkit-transition: all 0.3s ease-out;
@@ -275,14 +291,6 @@ canvas.game-over {
 #game-title {
 }
 
-#start-game {
-    margin-top: 304px;
-    z-index: 120;
-}
-.state-game #start-game {
-    z-index: 0;
-}
-
 #canvas-wrapper.state-title,
 #canvas-wrapper.state-title canvas,
 #canvas-wrapper.state-gameOver,
@@ -312,12 +320,27 @@ canvas.game-over {
     padding: 0;
     text-align: center;
 }
+#tweet-wrapper {
+    left: 50%;
+    margin-left: 250px;
+    position: absolute;
+    width: 300px;
+    top: 33px;
+}
 
 /* -------------------------------------------------------------------------
  *
  * Button 
  *
  * --------------------------------------------------------------------------*/
+#start-game {
+    margin-top: 328px;
+    z-index: 120;
+}
+.state-game #start-game {
+    z-index: 0;
+}
+
 #button, .button {
     -webkit-transition: all 0.07s;
     -moz-transition: all 0.07s;
@@ -359,7 +382,7 @@ canvas.game-over {
     font-size: 4em;
     font-family: 'VT323', monospace;
     margin: 20px auto 20px 240px;
-    padding: 0.3em 1.5em;
+    padding: 0.12em 1.5em;
     position: relative;
     text-align: center;
     text-decoration: none;

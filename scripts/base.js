@@ -11,6 +11,7 @@
 
     // don't log anything by default
     BRAGI.options.groupsEnabled = [];
+    BRAGI.options.groupsEnabled = [/pubnub/i];
 
     // setup hungrybox
     // ----------------------------------
@@ -51,6 +52,9 @@
 
                 // Restore the transform
                 HUNGRYBOX.context.restore();
+            },
+            addCommas: function addCommas(str) {
+                return str.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
             }
         }
     };
