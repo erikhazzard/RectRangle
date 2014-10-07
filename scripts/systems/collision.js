@@ -120,10 +120,9 @@ HUNGRYBOX.systems.Collision.prototype.run = function collisionRun(entities){
 
                                 // is the box defined? If it's not, it's probably
                                 // too old or been deleted. In that case, continue
-                                if(!$boxEl){ 
+                                if(!$boxEl){
                                     continue;
                                 }
-                                
 
                                 // on collision with player, remove the created div 
                                 $boxEl.velocity("stop");
@@ -137,7 +136,10 @@ HUNGRYBOX.systems.Collision.prototype.run = function collisionRun(entities){
                                         duration: 120,
                                         easing: "easeInCubic",
                                         complete: function(){
-                                            $boxEl.remove();
+                                            // boxEl may be removed at this point
+                                            if($boxEl && $boxEl.remove){ 
+                                                $boxEl.remove();
+                                            }
                                         }
                                 });
 
