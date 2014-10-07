@@ -141,12 +141,17 @@
 
         // if the game is on the title screen or gameover screen, add the entity
         // when the game starts
-        this.entitiesToAdd.push(entity);
+        if(this.entitiesToAdd.length < 8){
+            this.entitiesToAdd.push(entity);
 
-        // If the game is running, add it directly to the entities array
-        if(HUNGRYBOX.entities){
-            HUNGRYBOX.entities[entity.id] = entity;
-        } 
+            // If the game is running, add it directly to the entities array
+            if(HUNGRYBOX.entities){
+                HUNGRYBOX.entities[entity.id] = entity;
+            } 
+        } else {
+            BRAGI.log('warn:game', 'too many entities added, not adding...');
+        }
+
         return;
     };
 
@@ -229,10 +234,20 @@
             entities[entity.id] = entity;
         }
 
-        // if there are existing entities that need to be added
+        // if there are existing entities that need to be added (ghosts)
         // ----------------------------------
         var gameStartDate = new Date();
-        _.each(this.entitiesToAdd, function(entity){
+
+        if(this.entitiesToAdd.length > 7){
+            BRAGI.log('warn:game', 
+                'added too many enities; adding first seven', {
+                length: this.entitiesToAdd.length
+            });
+            this.entitiesToAdd = this.entitiesToAdd.splice(0,7);
+        }
+        
+        // add entities
+        _.each(this.entitiesToAdd, function(entity, i){
             entities[entity.id] = entity;
         });
 

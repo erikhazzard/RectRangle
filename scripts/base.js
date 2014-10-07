@@ -26,7 +26,8 @@
             totalRectsEaten: 0,
             score: 0,
             highScore: 0,
-            scores: []
+            scores: [],
+            totalMessagesSeen: 0
         },
 
         systems: {},

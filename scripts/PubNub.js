@@ -69,6 +69,16 @@
                         HUNGRYBOX.totalMessagesReceivedByName[message.player.name] = 0;
                     }
                     HUNGRYBOX.totalMessagesReceivedByName[message.player.name]++;
+
+                    // update player info
+                    try{
+                        if(!HUNGRYBOX.player.totalMessagesSeen){
+                            HUNGRYBOX.player.totalMessagesSeen = 0;
+                        }
+                        HUNGRYBOX.player.totalMessagesSeen++;
+                    }catch(er){
+                        BRAGI.log('error:pubnub', 'error updating player totalMessagesSeen');
+                    }
                 }
 
                 var secCutoff = 2;

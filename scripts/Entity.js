@@ -112,6 +112,24 @@
             self: this
         });
 
+        // don't draw if the generation date is too old (if for instance they
+        // have the tab backgrounded)
+        if(new Date() - this.generationDate > HUNGRYBOX.config.otherPlayerDecayTime){
+            BRAGI.log('entity', 'entity is too old, getting rid of it');
+
+            setTimeout(function(){
+                // remove it from the global entities list
+                try{
+                    delete HUNGRYBOX.entities[self.id];
+                } catch(er){
+                    BRAGI.log('error:entity', 'could not remove entity');
+                }
+            }, 30);
+
+            // don't continue
+            return this; 
+        }
+
         // add a new box to give a little animation
         var boxClass = 'new-box other-player';
 
@@ -154,24 +172,37 @@
         HUNGRYBOX.$canvasWrapper.append( $el );
 
         setTimeout(function(){ requestAnimationFrame(function(){ // remove it
-            $el.css({
-                transform: 'scale(1)',
-                '-webkit-transform': 'scale(1)',
-                '-moz-transform': 'scale(1)',
-            });
-
-            // NOTE: remove decay animation when player eats box
-            setTimeout(function(){
-                $el.velocity({ 
-                    opacity: 0 
-                }, {
-                    duration: HUNGRYBOX.config.otherPlayerDecayTime,
-                    easing: "easeOutCubic",
-                    complete: function(){
-                        $el.remove();
-                    }
+            if($el){
+                $el.css({
+                    transform: 'scale(1)',
+                    '-webkit-transform': 'scale(1)',
+                    '-moz-transform': 'scale(1)',
                 });
-            }, 200);
+
+                // NOTE: remove decay animation when player eats box
+                setTimeout(function(){
+                    if($el){
+                        $el.velocity({ 
+                            opacity: 0 
+                        }, {
+                            duration: HUNGRYBOX.config.otherPlayerDecayTime,
+                            easing: "easeOutCubic",
+                            complete: function(){
+                                // element may have been deleted. if that's
+                                // the case, don't try to remove it
+                                if($el){
+                                    try{
+                                        $el.remove();
+                                    }catch(er){
+                                        BRAGI.log('error:entity', 
+                                        '$el is undefined, could not remove');
+                                    }
+                                }
+                            }
+                        });
+                    }
+                }, 200);
+            }
         }); }, 10);
 
         return this;

@@ -79,6 +79,12 @@ HUNGRYBOX.systems.Collision.prototype.run = function collisionRun(entities){
                     continue;
                 }
 
+                // make sure the entity is defined
+                if(entities[entityId2] === undefined){
+                    BRAGI.log('warn:collision:systems', 'entity2 is undefined!');
+                    continue;
+                }
+
                 // Don't check player controller entities for collisions 
                 // (otherwise, it'd always be true)
                 if( !entities[entityId2].components.playerControlled &&
@@ -103,6 +109,7 @@ HUNGRYBOX.systems.Collision.prototype.run = function collisionRun(entities){
                         });
 
                         if(entities[entityId2].components.otherPlayer){
+
                             if(!entities[entityId2].ignoreCollision){
                                 BRAGI.log('collision:systems:otherPlayer', 
                                 '[x] collision with another player ghost detected!', {
@@ -110,6 +117,13 @@ HUNGRYBOX.systems.Collision.prototype.run = function collisionRun(entities){
                                 });
 
                                 var $boxEl = entities[entityId2].$boxEl;
+
+                                // is the box defined? If it's not, it's probably
+                                // too old or been deleted. In that case, continue
+                                if(!$boxEl){ 
+                                    continue;
+                                }
+                                
 
                                 // on collision with player, remove the created div 
                                 $boxEl.velocity("stop");
@@ -168,6 +182,7 @@ HUNGRYBOX.systems.Collision.prototype.run = function collisionRun(entities){
                                 delete entities[entityId2];
                             }
 
+                            // ignore collision, continue onwards
                             continue;
                         }
 

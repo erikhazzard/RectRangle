@@ -66,6 +66,7 @@
             setName: false,
             isGood: true,
             sprite: 'boxman1',
+            totalMessagesSeen: 0,
             scores: [],
             deaths: 0,
             totalPlayersEaten: 0,
