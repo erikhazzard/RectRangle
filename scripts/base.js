@@ -37,6 +37,10 @@
         highScore: 0,
         numPlayersEaten: 0,
 
+        // analytics - simple
+        totalMessagesReceived: 0,
+        totalMessagesReceivedByName: {},
+
         // keep track of time player loads game
         loadDate: new Date(),
 

@@ -56,9 +56,17 @@
                 BRAGI.log('pubnub', 'received message from a different player: ', {
                     message: message
                 });
-
+                
                 // clean it
                 message.player.name = message.player.name.replace(/[^a-zA-Z0-9 '".,?@#]/gi, '');
+
+                // keep track of total messages received
+                HUNGRYBOX.totalMessagesReceived++;
+                //and messages by player name
+                if(!HUNGRYBOX.totalMessagesReceivedByName[message.player.name]){
+                    HUNGRYBOX.totalMessagesReceivedByName[message.player.name] = 0;
+                }
+                HUNGRYBOX.totalMessagesReceivedByName[message.player.name]++;
 
                 var secCutoff = 2;
                 var tenSecCutoff = 16;
