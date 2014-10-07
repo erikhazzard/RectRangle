@@ -141,16 +141,20 @@
 
         // if the game is on the title screen or gameover screen, add the entity
         // when the game starts
-        if(this.entitiesToAdd.length < 8){
-            this.entitiesToAdd.push(entity);
+        this.entitiesToAdd.unshift(entity);
 
-            // If the game is running, add it directly to the entities array
-            if(HUNGRYBOX.entities){
-                HUNGRYBOX.entities[entity.id] = entity;
-            } 
-        } else {
-            BRAGI.log('warn:game', 'too many entities added, not adding...');
+        if(this.entitiesToAdd.length > 7){
+            // remove last item
+            var popped = this.entitiesToAdd.pop();
+            try{
+                delete HUNGRYBOX.entities[popped.id];
+            }catch(er){}
         }
+
+        // If the game is running, add it directly to the entities array
+        if(HUNGRYBOX.entities){
+            HUNGRYBOX.entities[entity.id] = entity;
+        } 
 
         return;
     };
