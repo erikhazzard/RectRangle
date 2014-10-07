@@ -11,7 +11,7 @@
 
     // don't log anything by default
     BRAGI.options.groupsEnabled = [];
-    BRAGI.options.groupsEnabled = [/pubnub/i];
+    //BRAGI.options.groupsEnabled = [/pubnub/i];
 
     // setup hungrybox
     // ----------------------------------
